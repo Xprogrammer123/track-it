@@ -1,0 +1,93 @@
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Package, Truck, Box, CheckCircle } from 'lucide-react';
+import type { TrackingFormData, TrackingStatus } from '../types/tracking';
+import { format } from 'date-fns';
+
+interface Props {
+  trackingData: TrackingFormData;
+  status: TrackingStatus;
+  onReset: () => void;
+}
+
+const statusIcons = {
+  'processing': Package,
+  'in-transit': Truck,
+  'out-for-delivery': Box,
+  'delivered': CheckCircle,
+};
+
+export default function TrackingResult({ trackingData, status, onReset }: Props) {
+  const StatusIcon = statusIcons[status.status];
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="w-full max-w-md p-8 bg-white rounded-xl shadow-lg"
+    >
+      <motion.div
+        className="flex justify-center mb-6"
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ type: "spring", stiffness: 260, damping: 20 }}
+      >
+        <StatusIcon className={`w-16 h-16 ${status.status === 'delivered' ? 'text-green-600' : 'text-red-600'}`} />
+      </motion.div>
+
+      <div className="text-center mb-6">
+        <h2 className="text-2xl font-bold mb-2">
+          Hello {trackingData.name}!
+        </h2>
+        <p className="text-gray-600 mb-4">
+          Tracking Code: {trackingData.trackingCode}
+        </p>
+        
+        {status.status === 'delivered' ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-green-600 font-semibold"
+          >
+            Your package has been delivered!
+          </motion.div>
+        ) : (
+          <div className="space-y-2">
+            <p className="text-gray-700">
+              Estimated delivery in {status.daysRemaining} {status.daysRemaining === 1 ? 'day' : 'days'}
+            </p>
+            <p className="text-sm text-gray-500">
+              Expected: {format(new Date(status.deliveryDate), 'MMMM do, yyyy')}
+            </p>
+          </div>
+        )}
+      </div>
+
+      <div className="space-y-4">
+        <div className="flex items-center justify-between text-sm">
+          <span className="text-gray-600">Status</span>
+          <span className="font-semibold capitalize">{status.status.replace('-', ' ')}</span>
+        </div>
+        <div className="flex items-center justify-between text-sm">
+          <span className="text-gray-600">Destination</span>
+          <span className="font-semibold">{trackingData.country}</span>
+        </div>
+        <div className="flex items-center justify-between text-sm">
+          <span className="text-gray-600">Last Updated</span>
+          <span className="font-semibold">
+            {format(new Date(status.lastChecked), 'MMM d, h:mm a')}
+          </span>
+        </div>
+      </div>
+
+      <motion.button
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        onClick={onReset}
+        className="w-full mt-8 py-3 px-6 text-red-600 border-2 border-red-600 rounded-lg hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+      >
+        Track Another Package
+      </motion.button>
+    </motion.div>
+  );
+}
