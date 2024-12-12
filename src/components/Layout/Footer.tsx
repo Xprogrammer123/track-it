@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
+import AuthModal from '../auth/AuthModal';
 
 export default function Footer() {
+  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
+
   const socialIcons = [
     { Icon: Facebook, href: '#' },
     { Icon: Twitter, href: '#' },
@@ -16,6 +19,9 @@ export default function Footer() {
     { label: 'Shipping History', path: '/history' },
     { label: 'Contact Us', path: '#' },
   ];
+
+  const openModal = () => setIsModalOpen(true); // Open modal
+  const closeModal = () => setIsModalOpen(false); // Close modal
 
   return (
     <footer className="bg-gray-900 text-white py-12">
@@ -62,10 +68,23 @@ export default function Footer() {
           </div>
         </div>
 
+        <div className="mt-8 flex justify-center items-center">
+          {/* Admin Login Button */}
+          <button
+            onClick={openModal}
+            className="text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+          >
+            Admin Login
+          </button>
+        </div>
+
         <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
           © 2024 Package Tracker Demo. All rights reserved.
         </div>
       </div>
+
+      {/* Authentication Modal */}
+      <AuthModal isOpen={isModalOpen} onClose={closeModal} type="admin" />
     </footer>
   );
 }
