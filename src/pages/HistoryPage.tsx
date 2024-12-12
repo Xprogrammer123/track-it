@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Package } from 'lucide-react';
+import { Link } from 'react-router-dom'
 
 export default function HistoryPage() {
   return (
@@ -19,9 +20,9 @@ export default function HistoryPage() {
             Sign in to view your package tracking history.
           </p>
           <div className="mt-8 text-center">
-            <button className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors">
+            <Link to="/login" className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors">
               Sign In
-            </button>
+            </Link>
           </div>
         </motion.div>
       </div>
