@@ -10,7 +10,7 @@ export const createPackage = async (req, res) => {
 
     const deliveryDate = addDays(new Date(), 5);
 
-    const package = await prisma.package.create({
+    const pacKage = await prisma.package.create({
       data: {
         trackingCode,
         status: 'processing',
@@ -21,7 +21,7 @@ export const createPackage = async (req, res) => {
       }
     });
 
-    res.status(201).json(package);
+    res.status(201).json(pacKage);
   } catch (error) {
     res.status(500).json({ message: 'Error creating package tracking' });
   }
@@ -31,7 +31,7 @@ export const getPackage = async (req, res) => {
   try {
     const { trackingCode } = req.params;
 
-    const package = await prisma.package.findUnique({
+    const pacKage = await prisma.package.findUnique({
       where: { trackingCode },
       include: {
         messages: {
@@ -40,11 +40,11 @@ export const getPackage = async (req, res) => {
       }
     });
 
-    if (!package) {
+    if (!pacKage) {
       return res.status(404).json({ message: 'Package not found' });
     }
 
-    res.json(package);
+    res.json(pacKage);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching package' });
   }
