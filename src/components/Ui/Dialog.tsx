@@ -3,8 +3,6 @@ import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { X } from "lucide-react"
 
 // Utility function directly included
-import { clsx, type ClassValue } from "clsx"
-import { twMerge } from "tailwind-merge"
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
