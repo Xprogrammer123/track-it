@@ -1,6 +1,6 @@
 import React from "react";
-import { Button } from "../components/Ui/button";
-import { Input } from "../components/Ui/input";
+import { Button } from "../../components/Ui/button";
+import { Input } from "../../components/Ui/input";
 import {
   Table,
   TableBody,
@@ -8,7 +8,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../components/Ui/table";
+} from "../../components/Ui/table";
 import {
   Dialog,
   DialogContent,
@@ -16,7 +16,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../components/Ui/dialog";
+} from "../../components/Ui/dialog";
 import { UserPlus, Users, LogOut, Search, Eye, UserMinus, Trash, Bell } from "lucide-react";
 
 // Mock data for demonstration
