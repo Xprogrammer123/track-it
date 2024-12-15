@@ -34,7 +34,7 @@ export const getPackageByTrackingCode = (trackingCode) => {
   if (!rows.length) return null;
   
   // Group messages with package
-  const package = {
+  const pacKage = {
     ...rows[0],
     messages: rows.map(row => ({
       id: row.message_id,
@@ -44,7 +44,7 @@ export const getPackageByTrackingCode = (trackingCode) => {
     })).filter(m => m.id) // Remove null messages
   };
   
-  return package;
+  return pacKage;
 };
 
 export const getUserPackages = (userId) => {

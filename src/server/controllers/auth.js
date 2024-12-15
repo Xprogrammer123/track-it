@@ -9,6 +9,10 @@ export const register = async (req, res) => {
   try {
     const { email, password, name, country } = req.body;
 
+    if (!email || !password || !name || !country) {
+      return res.status(400).json({ message: 'All fields are required' });
+    }
+
     const existingUser = await prisma.user.findUnique({
       where: { email }
     });
@@ -44,6 +48,7 @@ export const register = async (req, res) => {
       }
     });
   } catch (error) {
+    console.error('Error during registration:', error.message);
     res.status(500).json({ message: 'Error creating user' });
   }
 };
@@ -51,6 +56,12 @@ export const register = async (req, res) => {
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res
+        .status(400)
+        .json({ message: 'Email and password are required' });
+    }
 
     const user = await prisma.user.findUnique({
       where: { email }
@@ -82,6 +93,7 @@ export const login = async (req, res) => {
       }
     });
   } catch (error) {
+    console.error('Error during login:', error.message);
     res.status(500).json({ message: 'Error logging in' });
   }
 };
@@ -89,11 +101,21 @@ export const login = async (req, res) => {
 export const changePassword = async (req, res) => {
   try {
     const { oldPassword, newPassword } = req.body;
-    const userId = req.user.id;
+    const userId = req.user?.id;
+
+    if (!oldPassword || !newPassword) {
+      return res
+        .status(400)
+        .json({ message: 'Old and new passwords are required' });
+    }
 
     const user = await prisma.user.findUnique({
       where: { id: userId }
     });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
 
     const isValidPassword = await bcrypt.compare(oldPassword, user.password);
 
@@ -110,6 +132,7 @@ export const changePassword = async (req, res) => {
 
     res.json({ message: 'Password updated successfully' });
   } catch (error) {
+    console.error('Error during password change:', error.message);
     res.status(500).json({ message: 'Error changing password' });
   }
 };
