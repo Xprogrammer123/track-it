@@ -10,7 +10,9 @@
     "start": "node src/server/index.js",
     "lint": "eslint .",
     "preview": "vite preview",
-    "server": "node src/server/index.js",
+    "server": "node src/server/index.js"
+  },
+  "prisma": {
     "schema": "src/server/prisma/schema.prisma"
   },
   "dependencies": {
