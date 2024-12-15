@@ -1,25 +1,16 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { motion } from "framer-motion";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { UserPlus, Users, LogOut, Search, Eye, UserMinus, Trash, Bell } from "lucide-react";
+  UserPlus,
+  Users,
+  LogOut,
+  Search,
+  Eye,
+  UserMinus,
+  Trash,
+  Bell,
+} from "lucide-react";
 
-// Mock data for demonstration
 const mockUsers = [
   {
     id: 1,
@@ -39,25 +30,24 @@ const mockUsers = [
 
 const AdminPage = () => {
   const [searchQuery, setSearchQuery] = React.useState("");
-  const [notifications, setNotifications] = React.useState<string[]>([]);
+  const [notifications, setNotifications] = React.useState([]);
 
-  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearch = (e) => {
     setSearchQuery(e.target.value);
   };
 
-  const addNotification = (message: string) => {
+  const addNotification = (message) => {
     setNotifications((prev) => [...prev, message]);
-    // Remove notification after 3 seconds
     setTimeout(() => {
       setNotifications((prev) => prev.filter((n) => n !== message));
     }, 3000);
   };
 
-  const handleDeactivateAccount = (username: string) => {
+  const handleDeactivateAccount = (username) => {
     addNotification(`Account ${username} has been deactivated`);
   };
 
-  const handleDeleteAccount = (username: string) => {
+  const handleDeleteAccount = (username) => {
     addNotification(`Account ${username} has been deleted`);
   };
 
@@ -66,11 +56,13 @@ const AdminPage = () => {
       {/* Header */}
       <header className="bg-primary p-4">
         <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-primary-foreground">Welcome, Admin</h1>
-          <Button variant="secondary" className="gap-2">
+          <h1 className="text-2xl font-bold text-primary-foreground">
+            Welcome, Admin
+          </h1>
+          <button className="flex items-center gap-2 bg-secondary text-secondary-foreground px-4 py-2 rounded">
             <LogOut className="h-4 w-4" />
             Logout
-          </Button>
+          </button>
         </div>
       </header>
 
@@ -79,13 +71,16 @@ const AdminPage = () => {
         {/* Notifications */}
         <div className="fixed top-4 right-4 z-50 space-y-2">
           {notifications.map((notification, index) => (
-            <div
+            <motion.div
               key={index}
-              className="bg-primary text-primary-foreground p-4 rounded-md shadow-lg animate-fade-in"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 10 }}
+              className="bg-primary text-primary-foreground p-4 rounded-md shadow-lg"
             >
               <Bell className="inline-block mr-2 h-4 w-4" />
               {notification}
-            </div>
+            </motion.div>
           ))}
         </div>
 
@@ -93,63 +88,45 @@ const AdminPage = () => {
         <div className="flex justify-between items-center">
           <div className="relative w-72">
             <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-            <Input
+            <input
+              type="text"
               placeholder="Search users..."
               value={searchQuery}
               onChange={handleSearch}
-              className="pl-10"
+              className="pl-10 border rounded w-full px-3 py-2"
             />
           </div>
           <div className="space-x-4">
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="outline" className="gap-2">
-                  <UserPlus className="h-4 w-4" />
-                  Add New Admin
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Add New Admin</DialogTitle>
-                  <DialogDescription>
-                    Create a new admin account by filling out the form below.
-                  </DialogDescription>
-                </DialogHeader>
-                {/* Add New Admin Form */}
-                <div className="space-y-4 py-4">
-                  <Input placeholder="Username" />
-                  <Input placeholder="Email" type="email" />
-                  <Input placeholder="Password" type="password" />
-                  <Button className="w-full">Create Admin Account</Button>
-                </div>
-              </DialogContent>
-            </Dialog>
-            <Button variant="outline" className="gap-2">
+            <button className="flex items-center gap-2 border px-4 py-2 rounded">
+              <UserPlus className="h-4 w-4" />
+              Add New Admin
+            </button>
+            <button className="flex items-center gap-2 border px-4 py-2 rounded">
               <Users className="h-4 w-4" />
               View All Admins
-            </Button>
+            </button>
           </div>
         </div>
 
         {/* Users Table */}
         <div className="rounded-md border">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Username</TableHead>
-                <TableHead>Email</TableHead>
-                <TableHead>Registration Date</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
+          <table className="w-full">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="p-4 text-left">Username</th>
+                <th className="p-4 text-left">Email</th>
+                <th className="p-4 text-left">Registration Date</th>
+                <th className="p-4 text-left">Status</th>
+                <th className="p-4 text-left">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
               {mockUsers.map((user) => (
-                <TableRow key={user.id}>
-                  <TableCell>{user.username}</TableCell>
-                  <TableCell>{user.email}</TableCell>
-                  <TableCell>{user.registrationDate}</TableCell>
-                  <TableCell>
+                <tr key={user.id} className="border-t">
+                  <td className="p-4">{user.username}</td>
+                  <td className="p-4">{user.email}</td>
+                  <td className="p-4">{user.registrationDate}</td>
+                  <td className="p-4">
                     <span
                       className={`px-2 py-1 rounded-full text-xs ${
                         user.status === "Active"
@@ -159,73 +136,36 @@ const AdminPage = () => {
                     >
                       {user.status}
                     </span>
-                  </TableCell>
-                  <TableCell>
+                  </td>
+                  <td className="p-4">
                     <div className="flex gap-2">
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button variant="outline" size="icon">
-                            <Eye className="h-4 w-4" />
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent>
-                          <DialogHeader>
-                            <DialogTitle>User Profile</DialogTitle>
-                          </DialogHeader>
-                          <div className="space-y-4">
-                            <p><strong>Username:</strong> {user.username}</p>
-                            <p><strong>Email:</strong> {user.email}</p>
-                            <p><strong>Registration Date:</strong> {user.registrationDate}</p>
-                            <p><strong>Status:</strong> {user.status}</p>
-                          </div>
-                        </DialogContent>
-                      </Dialog>
-                      <Button
-                        variant="outline"
-                        size="icon"
+                      <button className="p-2 border rounded">
+                        <Eye className="h-4 w-4" />
+                      </button>
+                      <button
+                        className="p-2 border rounded"
                         onClick={() => handleDeactivateAccount(user.username)}
                       >
                         <UserMinus className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant="destructive"
-                        size="icon"
+                      </button>
+                      <button
+                        className="p-2 bg-red-600 text-white rounded"
                         onClick={() => handleDeleteAccount(user.username)}
                       >
                         <Trash className="h-4 w-4" />
-                      </Button>
+                      </button>
                     </div>
-                  </TableCell>
-                </TableRow>
+                  </td>
+                </tr>
               ))}
-            </TableBody>
-          </Table>
-        </div>
-
-        {/* Dashboard Analytics */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-6 rounded-lg border bg-card">
-            <h3 className="font-semibold mb-2">Total Users</h3>
-            <p className="text-3xl font-bold">256</p>
-          </div>
-          <div className="p-6 rounded-lg border bg-card">
-            <h3 className="font-semibold mb-2">New Users This Month</h3>
-            <p className="text-3xl font-bold">24</p>
-          </div>
-          <div className="p-6 rounded-lg border bg-card">
-            <h3 className="font-semibold mb-2">Active Users</h3>
-            <p className="text-3xl font-bold">180</p>
-          </div>
+            </tbody>
+          </table>
         </div>
       </main>
 
       {/* Footer */}
       <footer className="bg-muted py-6 mt-8">
         <div className="container mx-auto text-center">
-          <div className="flex justify-center space-x-4 mb-4">
-            <Button variant="link">Contact Support</Button>
-            <Button variant="link">Help Center</Button>
-          </div>
           <p className="text-sm text-muted-foreground">
             © 2024 Admin Dashboard. Version 1.0.0
           </p>
