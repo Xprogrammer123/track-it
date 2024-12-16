@@ -2,6 +2,33 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+export const getAllAccounts = async (req, res) => {
+  try {
+    const accounts = await prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        country: true,
+        role: true,
+        registrationDate: true,
+        packages: {
+          select: {
+            trackingCode: true,
+            status: true,
+            deliveryDate: true
+          }
+        }
+      }
+    });
+
+    res.json(accounts);
+  } catch (error) {
+    res.status(500).json({ message: 'Error fetching accounts' });
+  }
+};
+
+
 export const getUsers = async (req, res) => {
   try {
     const users = await prisma.user.findMany({
@@ -64,5 +91,22 @@ export const deleteUser = async (req, res) => {
     res.json({ message: 'User deleted successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting user' });
+  }
+};
+
+export const editMessage = async (req, res) => {
+  try {
+    const { messageId } = req.params;
+    const { content } = req.body;
+
+    // Update the message content
+    const updatedMessage = await prisma.message.update({
+      where: { id: messageId },
+      data: { content }
+    });
+
+    res.json({ message: 'Message updated successfully', updatedMessage });
+  } catch (error) {
+    res.status(500).json({ message: 'Error updating message' });
   }
 };

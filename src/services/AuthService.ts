@@ -2,7 +2,7 @@ import axios from "axios";
 import type { LoginCredentials, RegistrationData, User } from "../types/auth";
 import Cookies from "js-cookie";
 
-const API_BASE_URL = "http://localhost:5000/api";
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export interface RegisterResponse {
   token: string;
