@@ -8,8 +8,8 @@ router.use(authMiddleware, adminMiddleware);
 
 // router.get('/users', getUsers);
 router.get('/accounts', getAllAccounts);
-router.put('/messages/:messageId', editMessage);
+// router.put('/messages/:messageId', editMessage);
 router.put('/packages/:packageId/status', updatePackageStatus);
-router.delete('/users/:userId', deleteUser);
+// router.delete('/users/:userId', deleteUser);
 
 export default router;
