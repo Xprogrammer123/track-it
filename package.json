@@ -7,13 +7,13 @@
     "dev": "vite",
     "build": "vite build",
     "postbuild": "prisma generate && prisma migrate deploy",
-    "start": "node src/server/index.js",
+    "start": "node api/index.js",
     "lint": "eslint .",
     "preview": "vite preview",
-    "server": "node src/server/index.js"
+    "server": "node api/index.js"
   },
   "prisma": {
-    "schema": "src/server/prisma/schema.prisma"
+    "schema": "api/prisma/schema.prisma"
   },
   "dependencies": {
     "@prisma/client": "^6.0.1",
