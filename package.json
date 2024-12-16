@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
-    "postbuild": "prisma generate && prisma migrate deploy",
+    "build": "vite build && prisma generate && prisma migrate deploy",
     "start": "node api/index.js",
     "lint": "eslint .",
     "preview": "vite preview",
