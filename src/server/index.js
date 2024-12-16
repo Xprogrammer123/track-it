@@ -18,6 +18,6 @@ app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/packages', packageRoutes);
 
-app.listen(config.port, () => {
-  console.log(`Server running on port ${config.port}`);
-});
+// app.listen(config.port, () => {
+//   console.log(`Server running on port ${config.port}`);
+// });
