@@ -2,7 +2,7 @@ import axios from "axios";
 import type { LoginCredentials, RegistrationData, User } from "../types/auth";
 import Cookies from "js-cookie";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_BASE_URL = "https://track-it-api.vercel.app/api";
 
 export interface RegisterResponse {
   token: string;
