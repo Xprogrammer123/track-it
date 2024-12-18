@@ -288,7 +288,7 @@ const AdminPage = () => {
                       </Box>
                     </TableCell>
                     <TableCell>
-                      <Link to="/input"
+                      <Link to="/input">
                       <IconButton color="success">
                         <Add onClick={() => handleSendMessage()} />
                       </IconButton>
