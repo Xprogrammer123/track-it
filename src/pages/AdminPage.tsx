@@ -379,8 +379,8 @@ const AdminPage = () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog}>Cancel</Button>
-          <Button onClick={handleAddAdmin} variant="contained">
+          <Button onClick={handleCloseDialog} variant="outlined" color="error">Cancel</Button>
+          <Button onClick={handleAddAdmin} variant="contained" color="error">
             Add Admin
           </Button>
         </DialogActions>
