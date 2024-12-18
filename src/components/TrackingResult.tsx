@@ -1,7 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Package, Truck, Box, CheckCircle } from 'lucide-react';
-import type { TrackingFormData, TrackingStatus } from '../types/tracking';
 import { format } from 'date-fns';
 
 interface Props {
@@ -78,6 +77,44 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
             {format(new Date(status.lastChecked), 'MMM d, h:mm a')}
           </span>
         </div>
+      </div>
+
+      {/* Shipper Information */}
+      <div className="mt-6">
+        <h3 className="text-lg font-semibold mb-2">Shipper Information</h3>
+        <div className="space-y-2">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-gray-600">Name</span>
+            <span className="font-semibold">{trackingData.shipperName || 'Default Shipper'}</span>
+          </div>
+          <div className="text-sm">
+            <span className="text-gray-600">Address</span>
+            <p className="font-semibold text-gray-700">{trackingData.shipperAddress || '123 Default St, Default City'}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Receiver Information */}
+      <div className="mt-6">
+        <h3 className="text-lg font-semibold mb-2">Receiver Information</h3>
+        <div className="space-y-2">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-gray-600">Name</span>
+            <span className="font-semibold">{trackingData.receiverName || 'Default Receiver'}</span>
+          </div>
+          <div className="text-sm">
+            <span className="text-gray-600">Address</span>
+            <p className="font-semibold text-gray-700">{trackingData.receiverAddress || '456 Default Blvd, Default Town'}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Comments */}
+      <div className="mt-6">
+        <h3 className="text-lg font-semibold mb-2">Comment</h3>
+        <p className="text-sm text-gray-700">
+          {trackingData.comment || 'No additional comments provided.'}
+        </p>
       </div>
 
       <motion.button
