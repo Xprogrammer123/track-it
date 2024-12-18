@@ -1,14 +1,14 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App.tsx";
-import AdminInput from "./pages/AdminInput.tsx";
+import AdminPage from "./pages/AdminPage.tsx";
 import "./index.css";
 import { AuthProvider } from "./context/AuthContext";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <AuthProvider>
-      <AdminInput />
+      <AdminPage />
     </AuthProvider>
   </StrictMode>
 );
