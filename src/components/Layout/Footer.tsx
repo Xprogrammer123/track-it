@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
-import AuthModal from '../auth/AuthModal';
+
 
 export default function Footer() {
-  const [isModalOpen, setIsModalOpen] = useState(false); // State for modal visibility
+
 
   const socialIcons = [
     { Icon: Facebook, href: '#' },
@@ -20,8 +20,7 @@ export default function Footer() {
     { label: 'Contact Us', path: '#' },
   ];
 
-  const openModal = () => setIsModalOpen(true); // Open modal
-  const closeModal = () => setIsModalOpen(false); // Close modal
+  
 
   return (
     <footer className="bg-gray-900 text-white py-12">
@@ -73,8 +72,7 @@ export default function Footer() {
         </div>
       </div>
 
-      {/* Authentication Modal */}
-      <AuthModal isOpen={isModalOpen} onClose={closeModal} type="admin" />
+    
     </footer>
   );
 }
