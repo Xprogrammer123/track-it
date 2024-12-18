@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Package } from 'lucide-react';
 import type { TrackingFormData } from '../types/tracking';
@@ -9,16 +9,27 @@ interface Props {
 }
 
 export default function TrackingForm({ onSubmit, isLoading }: Props) {
-  const [formData, setFormData] = React.useState<TrackingFormData>({
+  const [formData, setFormData] = useState<TrackingFormData>({
     trackingCode: '',
     name: '',
-    country: '', // New country field
+    country: '',
     email: '',
   });
 
+  const [error, setError] = useState<string | null>(null);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit(formData);
+    
+    // Hardcoded tracking code for validation
+    const validTrackingCode = "ABC123"; // Replace with the admin's saved code
+
+    if (formData.trackingCode !== validTrackingCode) {
+      setError("Invalid tracking code. Please try again.");
+    } else {
+      setError(null);
+      onSubmit(formData);
+    }
   };
 
   return (
@@ -68,6 +79,7 @@ export default function TrackingForm({ onSubmit, isLoading }: Props) {
             onChange={(e) => setFormData({ ...formData, country: e.target.value })}
           />
         </div>
+        {error && <p className="text-red-500 text-sm">{error}</p>}
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
