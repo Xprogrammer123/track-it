@@ -112,7 +112,7 @@ export default function Header() {
             className="text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
           >
             Login
-          </button>
+          </Link>
         </div>
     </header>
   );
