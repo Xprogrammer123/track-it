@@ -56,30 +56,6 @@ export default function TrackingForm({ onSubmit, isLoading }: Props) {
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           />
         </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Country
-          </label>
-          <input
-            type="text"
-            required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-            value={formData.country}
-            onChange={(e) => setFormData({ ...formData, country: e.target.value })}
-          />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">
-            Email
-          </label>
-          <input
-            type="email"
-            required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          />
-        </div>
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
