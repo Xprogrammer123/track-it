@@ -12,7 +12,7 @@ interface LoginCredentials {
 interface Props {
   type: "user" | "admin";
   onForgotPassword: () => void;
-  onRegister: () => void;
+  onRegister?: () => void;
 }
 
 export default function LoginForm({
@@ -38,7 +38,7 @@ export default function LoginForm({
     try {
       await login(credentials); 
       setIsLoading(false);
-      navigate("/dashboard");
+      navigate("/admin");
     } catch (error: any) {
       setErrorMessage(error.message || "Login failed. Please try again.");
       setIsLoading(false);

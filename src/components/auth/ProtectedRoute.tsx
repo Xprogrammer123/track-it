@@ -1,28 +1,36 @@
 import React from "react";
-import { Route, Navigate, RouteProps } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
-// Create ProtectedRoute component
-interface ProtectedRouteProps extends RouteProps {
+interface ProtectedRouteProps {
   adminOnly?: boolean;
   children: React.ReactNode;
 }
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ adminOnly = false, children, ...rest }) => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ adminOnly = false, children }) => {
   const { state } = useAuth();
 
-  // If the user is not authenticated, redirect to the login page
+  // Show a loader while authentication state is loading
+  if (state.loading) {
+    return <div>Loading...</div>; // Or use a proper loader component
+  }
+
+  // Redirect to login if the user is not authenticated
   if (!state.isAuthenticated) {
     return <Navigate to="/login" replace />;
   }
 
-  // If it's an admin-only route and the user is not an admin, redirect to the home or any user route
-  if (adminOnly && !state.isAdmin) {
+  // Redirect non-admin users if this is an admin-only route
+  if (!adminOnly) {
+    return <Navigate to="/" replace />;
+  }
+  
+  if (!state.isAdmin) {
     return <Navigate to="/" replace />;
   }
 
-  // Otherwise, allow access to the protected route
-  return <Route {...rest} element={children} />;
+  // Render the children if authentication and role checks pass
+  return <>{children}</>;
 };
 
 export default ProtectedRoute;

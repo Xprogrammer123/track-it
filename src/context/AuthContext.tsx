@@ -8,6 +8,7 @@ interface AuthState {
   user: User | AdminUser | null;
   token: string | null;
   isAdmin: boolean;
+  loading: boolean; // Loading state
 }
 
 type AuthAction =
@@ -22,18 +23,27 @@ const initialState: AuthState = {
   isAuthenticated: false,
   user: null,
   token: null,
-  isAdmin: false, // Admin flag
+  isAdmin: false,
+  loading: true, // Start with loading true
 };
 
 // Reducer function
 const authReducer = (state: AuthState, action: AuthAction): AuthState => {
   switch (action.type) {
+    case "LOAD_TOKEN":
+      return {
+        ...state,
+        token: action.payload,
+        isAuthenticated: Boolean(action.payload),
+        loading: false, // Finish loading once token is checked
+      };
     case "LOGIN":
       return {
         isAuthenticated: true,
         user: action.payload.user,
         token: action.payload.token,
-        isAdmin: (action.payload.user as AdminUser).role === 'admin',
+        isAdmin: (action.payload.user as AdminUser).role === "admin",
+        loading: false, // Stop loading after login
       };
     case "LOGOUT":
       return {
@@ -41,6 +51,7 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
         user: null,
         token: null,
         isAdmin: false,
+        loading: false,
       };
     case "SET_USER":
       return {
@@ -51,12 +62,6 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
       return {
         ...state,
         isAdmin: action.payload,
-      };
-    case "LOAD_TOKEN":
-      return {
-        ...state,
-        token: action.payload,
-        isAuthenticated: Boolean(action.payload),
       };
     default:
       return state;
@@ -70,23 +75,19 @@ const AuthContext = createContext<{
   register: (data: RegistrationData) => Promise<void>;
   logout: () => void;
   setAdmin: (isAdmin: boolean) => void;
-}>({
-  state: initialState,
-  login: async () => {},
-  register: async () => {},
-  logout: () => {},
-  setAdmin: () => {},
-});
+}>(null!);
 
 // AuthProvider component
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  // Load token from cookies on initialization
+  // Load token from storage on initialization
   useEffect(() => {
     const token = getAuthToken();
     if (token) {
       dispatch({ type: "LOAD_TOKEN", payload: token });
+    } else {
+      dispatch({ type: "LOAD_TOKEN", payload: null }); // No token found, stop loading
     }
   }, []);
 
