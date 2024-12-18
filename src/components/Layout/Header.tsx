@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Package, Menu, X } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
+import { Button } from "@mui/material";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
