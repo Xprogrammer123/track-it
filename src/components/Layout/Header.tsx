@@ -94,17 +94,26 @@ export default function Header() {
                 </Link>
               ))}
               {state.isAdmin && (
-                <button
+                <Button
                   onClick={handleAdminClick}
                   className="block text-gray-600 hover:text-red-600 transition-colors"
                 >
                   Admin Dashboard
-                </button>
+                </Button>
               )}
             </nav>
           </motion.div>
         )}
       </AnimatePresence>
+              <div className="mt-8 flex justify-center items-center">
+          {/* Admin Login Button */}
+          <Link
+            to ="/login"
+            className="text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+          >
+            Login
+          </button>
+        </div>
     </header>
   );
 }
