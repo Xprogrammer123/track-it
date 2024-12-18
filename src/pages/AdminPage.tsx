@@ -172,10 +172,12 @@ const AdminPage = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        
       }}
+      
     >
       {/* Header */}
-      <AppBar position="static" sx={{ width: "100%", mb: 4 }}>
+      <AppBar position="static" sx={{ width: "100%", mb: 4 }} color="error">
         <Toolbar>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             Welcome, {state.user?.name || state.user?.username}!
@@ -219,10 +221,11 @@ const AdminPage = () => {
             startIcon={<PersonAdd />}
             onClick={() => setOpenDialog(true)}
             sx={{ mr: 2 }}
+            color="error"
           >
             Add New Admin
           </Button>
-          <Button variant="outlined" startIcon={<Group />} onClick={toggleView}>
+          <Button variant="outlined" startIcon={<Group />} onClick={toggleView} color="error">
             {viewAllAdmins ? "View All Users" : "View All Admins"}
           </Button>
         </Box>
