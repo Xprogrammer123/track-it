@@ -13,6 +13,7 @@ import LoginForm from "./components/auth/LoginForm";
 import RegisterForm from "./components/auth/RegisterForm";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import AdminPage from "./pages/AdminPage";
+import AdminInput from "./pages/AdminInput";
 import {useAuth} from "./context/AuthContext";
 
 // Define a wrapper for routes that need Layout
@@ -43,6 +44,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/track" element={<TrackingPage />} />
             <Route path="/history" element={<HistoryPage />} />
+            <Route path="/input" element={<AdminInput />} />
           </Route>
 
           {/* Protected Routes */}
