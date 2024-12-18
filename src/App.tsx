@@ -5,6 +5,7 @@ import {
   Navigate,
   Outlet,
 } from "react-router-dom";
+import React from "react";
 import Layout from "./components/Layout";
 import HomePage from "./pages/HomePage";
 import TrackingPage from "./pages/TrackingPage";
@@ -14,9 +15,9 @@ import RegisterForm from "./components/auth/RegisterForm";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import AdminPage from "./pages/AdminPage";
 import AdminInput from "./pages/AdminInput";
-import {useAuth} from "./context/AuthContext";
+import { useAuth } from "./context/AuthContext";
+import ErrorBoundary from "./components/ErrorBoundary";
 
-// Define a wrapper for routes that need Layout
 function LayoutWrapper() {
   return (
     <Layout>
@@ -28,38 +29,61 @@ function LayoutWrapper() {
 function App() {
   const { state } = useAuth();
 
-  // Show a loader while authentication state is loading
+  // Manage tracking code state
+  const [trackingCode, setTrackingCode] = React.useState("");
+
+  const handleTrackingCodeSave = (code: string) => {
+    setTrackingCode(code);
+  };
+
   if (state.loading) {
-    return <div>Loading...</div>; // Or use a proper loading spinner
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="text-lg font-bold">Loading...</div>
+      </div>
+    );
   }
 
   return (
-      <Router>
+    <Router>
+      <ErrorBoundary>
         <Routes>
-          {/* Wrap all pages that need Layout */}
+          {/* Routes with Layout */}
           <Route element={<LayoutWrapper />}>
-            {/* Login and Register Pages (No Layout needed) */}
-            <Route path="/login" element={<LoginForm />} />
-            <Route path="/register" element={<RegisterForm />} />
+            {/* Public Pages */}
             <Route path="/" element={<HomePage />} />
-            <Route path="/track" element={<TrackingPage />} />
+            <Route
+              path="/track"
+              element={
+                <TrackingPage
+                  trackingCode={trackingCode}
+                  onSave={handleTrackingCodeSave}
+                />
+              }
+            />
             <Route path="/history" element={<HistoryPage />} />
             <Route path="/input" element={<AdminInput />} />
           </Route>
 
-          {/* Protected Routes */}
+          {/* Auth Pages */}
+          <Route path="/login" element={<LoginForm />} />
+          <Route path="/register" element={<RegisterForm />} />
+
+          {/* Admin and User Forms */}
           <Route
             path="/admin"
             element={
               <ProtectedRoute adminOnly={true}>
-                <AdminPage />
+                <AdminPage trackingCode={trackingCode} />
               </ProtectedRoute>
             }
           />
-          {/* Default Page */}
+
+          {/* Catch-All Route */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </Router>
+      </ErrorBoundary>
+    </Router>
   );
 }
 
