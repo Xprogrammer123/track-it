@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom"
 import axios from "axios";
 import {
   AppBar,
@@ -287,9 +288,11 @@ const AdminPage = () => {
                       </Box>
                     </TableCell>
                     <TableCell>
+                      <Link to="/input"
                       <IconButton color="success">
                         <Add onClick={() => handleSendMessage()} />
                       </IconButton>
+                      </Link>
                       <IconButton color="error">
                         <Delete onClick={() => handleDeleteAccount(user.id)} />
                       </IconButton>
