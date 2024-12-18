@@ -1,16 +1,28 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Package, Menu, X } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { state } = useAuth();
+  const navigate = useNavigate();
 
   const menuItems = [
     { label: 'Home', path: '/' },
     { label: 'Track Package', path: '/track' },
     { label: 'Shipping History', path: '/history' },
   ];
+
+  const handleAdminClick = () => {
+    if (state.isAdmin) {
+      navigate('/admin');
+    }
+  };
+
+  useEffect(() => {
+  }, [state.user]);
 
   return (
     <header className="fixed w-full bg-white shadow-md z-50">
@@ -37,6 +49,14 @@ export default function Header() {
                 </motion.span>
               </Link>
             ))}
+            {state.isAdmin && (
+              <button
+                onClick={handleAdminClick}
+                className="text-gray-600 hover:text-red-600 transition-colors"
+              >
+                Admin Dashboard
+              </button>
+            )}
           </nav>
 
           {/* Mobile Menu Button */}
@@ -73,6 +93,14 @@ export default function Header() {
                   {item.label}
                 </Link>
               ))}
+              {state.isAdmin && (
+                <button
+                  onClick={handleAdminClick}
+                  className="block text-gray-600 hover:text-red-600 transition-colors"
+                >
+                  Admin Dashboard
+                </button>
+              )}
             </nav>
           </motion.div>
         )}

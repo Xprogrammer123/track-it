@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useReducer, useEffect } from "react";
-import { loginUser, registerUser, removeAuthToken, getAuthToken } from "../services/AuthService";
+import { loginUser, registerUser, removeAuthToken, getAuthToken, fetchUser } from "../services/AuthService";
 import type { LoginCredentials, RegistrationData, User, AdminUser } from "../types/auth";
 
 // Define the AuthState and Action types
@@ -81,15 +81,24 @@ const AuthContext = createContext<{
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-  // Load token from storage on initialization
   useEffect(() => {
     const token = getAuthToken();
     if (token) {
       dispatch({ type: "LOAD_TOKEN", payload: token });
+      const fetchUserData = async () => {
+        try {
+          const user = await fetchUser();
+          dispatch({ type: "SET_USER", payload: user });
+          dispatch({ type: "SET_ADMIN", payload: user.role === "admin" });
+        } catch (error) {
+          console.error("Failed to fetch user data:", error);
+        }
+      };
+      fetchUserData();
     } else {
-      dispatch({ type: "LOAD_TOKEN", payload: null }); // No token found, stop loading
+      dispatch({ type: "LOAD_TOKEN", payload: null });
     }
-  }, []);
+  }, []);  
 
   // Login function
   const login = async (credentials: LoginCredentials) => {

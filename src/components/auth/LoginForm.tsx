@@ -38,7 +38,7 @@ export default function LoginForm({
     try {
       await login(credentials); 
       setIsLoading(false);
-      navigate("/admin");
+      navigate("/");
     } catch (error: any) {
       setErrorMessage(error.message || "Login failed. Please try again.");
       setIsLoading(false);

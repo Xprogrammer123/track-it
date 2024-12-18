@@ -21,11 +21,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ adminOnly = false, chil
   }
 
   // Redirect non-admin users if this is an admin-only route
-  if (!adminOnly) {
-    return <Navigate to="/" replace />;
-  }
-  
-  if (!state.isAdmin) {
+  if (!adminOnly && !state.isAdmin) {
     return <Navigate to="/" replace />;
   }
 

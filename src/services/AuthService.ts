@@ -68,3 +68,18 @@ export const getAuthToken = (): string | undefined => {
 export const removeAuthToken = () => {
   Cookies.remove("authToken");
 };
+
+// Fetch user details
+export const fetchUser = async () => {
+  const token = getAuthToken();
+  if (!token) throw new Error("User is not authenticated");
+
+  try {
+    const response = await axios.get(`${API_BASE_URL}/auth/user`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return response.data; // Return the user data
+  } catch (error: any) {
+    throw new Error(error.response?.data.message || "Failed to fetch user data");
+  }
+};
