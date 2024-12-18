@@ -16,8 +16,8 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import AdminPage from "./pages/AdminPage";
 import AdminInput from "./pages/AdminInput";
 import { useAuth } from "./context/AuthContext";
-import ErrorBoundary from "./components/ErrorBoundary";
 
+// Define a wrapper for routes that need Layout
 function LayoutWrapper() {
   return (
     <Layout>
@@ -46,43 +46,41 @@ function App() {
 
   return (
     <Router>
-      <ErrorBoundary>
-        <Routes>
-          {/* Routes with Layout */}
-          <Route element={<LayoutWrapper />}>
-            {/* Public Pages */}
-            <Route path="/" element={<HomePage />} />
-            <Route
-              path="/track"
-              element={
-                <TrackingPage
-                  trackingCode={trackingCode}
-                  onSave={handleTrackingCodeSave}
-                />
-              }
-            />
-            <Route path="/history" element={<HistoryPage />} />
-            <Route path="/input" element={<AdminInput />} />
-          </Route>
-
-          {/* Auth Pages */}
-          <Route path="/login" element={<LoginForm />} />
-          <Route path="/register" element={<RegisterForm />} />
-
-          {/* Admin and User Forms */}
+      <Routes>
+        {/* Routes with Layout */}
+        <Route element={<LayoutWrapper />}>
+          {/* Public Pages */}
+          <Route path="/" element={<HomePage />} />
           <Route
-            path="/admin"
+            path="/track"
             element={
-              <ProtectedRoute adminOnly={true}>
-                <AdminPage trackingCode={trackingCode} />
-              </ProtectedRoute>
+              <TrackingPage
+                trackingCode={trackingCode}
+                onSave={handleTrackingCodeSave}
+              />
             }
           />
+          <Route path="/history" element={<HistoryPage />} />
+          <Route path="/input" element={<AdminInput />} />
+        </Route>
 
-          {/* Catch-All Route */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </ErrorBoundary>
+        {/* Auth Pages */}
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/register" element={<RegisterForm />} />
+
+        {/* Admin and User Forms */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <AdminPage trackingCode={trackingCode} />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Catch-All Route */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
     </Router>
   );
 }
