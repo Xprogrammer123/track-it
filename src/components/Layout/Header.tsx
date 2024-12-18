@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Package, Menu, X } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import { Package, Menu, X } from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,19 +10,18 @@ export default function Header() {
   const navigate = useNavigate();
 
   const menuItems = [
-    { label: 'Home', path: '/' },
-    { label: 'Track Package', path: '/track' },
-    { label: 'Shipping History', path: '/history' },
+    { label: "Home", path: "/" },
+    { label: "Track Package", path: "/track" },
+    { label: "Shipping History", path: "/history" },
   ];
 
   const handleAdminClick = () => {
     if (state.isAdmin) {
-      navigate('/admin');
+      navigate("/admin");
     }
   };
 
-  useEffect(() => {
-  }, [state.user]);
+  useEffect(() => {}, [state.user]);
 
   return (
     <header className="fixed w-full bg-white shadow-md z-50">
@@ -41,14 +40,21 @@ export default function Header() {
                 to={item.path}
                 className="text-gray-600 hover:text-red-600 transition-colors"
               >
-                <motion.span
-                  whileHover={{ y: -2 }}
-                  className="inline-block"
-                >
+                <motion.span whileHover={{ y: -2 }} className="inline-block">
                   {item.label}
                 </motion.span>
               </Link>
             ))}
+            {!state.isAuthenticated && (
+              <button>
+                <Link
+                  to="/login"
+                  className="text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+                >
+                  Login
+                </Link>
+              </button>
+            )}
             {state.isAdmin && (
               <button
                 onClick={handleAdminClick}
@@ -78,7 +84,7 @@ export default function Header() {
         {isMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             className="md:hidden bg-white border-t"
           >
@@ -93,6 +99,16 @@ export default function Header() {
                   {item.label}
                 </Link>
               ))}
+              {!state.isAuthenticated && (
+                <div className="mt-8 flex justify-center items-center">
+                  <Link
+                    to="/login"
+                    className="text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
+                  >
+                    Login
+                  </Link>
+                </div>
+              )}
               {state.isAdmin && (
                 <Button
                   onClick={handleAdminClick}

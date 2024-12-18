@@ -25,7 +25,7 @@ import {
   CircularProgress,
   TablePagination,
 } from "@mui/material";
-import { Search, Logout, PersonAdd, Group, Delete } from "@mui/icons-material";
+import { Search, Logout, PersonAdd, Add, Group, Delete } from "@mui/icons-material";
 import { useAuth } from "../context/AuthContext";
 
 const API_BASE_URL = "https://track-it-api.vercel.app/api/admin";
@@ -112,6 +112,10 @@ const AdminPage = () => {
   const handleSearch = (e) => setSearchQuery(e.target.value);
 
   const handleLogout = () => logout();
+
+  const handleSendMessage = async () => {
+    addNotification("No Packages yet");
+  };
 
   const handleDeleteAccount = async (userId) => {
     try {
@@ -218,11 +222,7 @@ const AdminPage = () => {
           >
             Add New Admin
           </Button>
-          <Button
-            variant="outlined"
-            startIcon={<Group />}
-            onClick={toggleView}
-          >
+          <Button variant="outlined" startIcon={<Group />} onClick={toggleView}>
             {viewAllAdmins ? "View All Users" : "View All Admins"}
           </Button>
         </Box>
@@ -284,6 +284,9 @@ const AdminPage = () => {
                       </Box>
                     </TableCell>
                     <TableCell>
+                      <IconButton color="success">
+                        <Add onClick={() => handleSendMessage()} />
+                      </IconButton>
                       <IconButton color="error">
                         <Delete onClick={() => handleDeleteAccount(user.id)} />
                       </IconButton>
@@ -299,7 +302,7 @@ const AdminPage = () => {
       <TablePagination
         rowsPerPageOptions={[10, 25, 50]}
         component="div"
-        count={(viewAllAdmins ? admins.length : users.length)}
+        count={viewAllAdmins ? admins.length : users.length}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}
@@ -346,7 +349,9 @@ const AdminPage = () => {
             fullWidth
             margin="normal"
             value={newAdmin.email}
-            onChange={(e) => setNewAdmin({ ...newAdmin, email: e.target.value })}
+            onChange={(e) =>
+              setNewAdmin({ ...newAdmin, email: e.target.value })
+            }
           />
           <TextField
             label="Country"
