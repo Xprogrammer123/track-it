@@ -68,16 +68,6 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="mt-8 flex justify-center items-center">
-          {/* Admin Login Button */}
-          <button
-            onClick={openModal}
-            className="text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
-          >
-            Login
-          </button>
-        </div>
-
         <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
           © 2024 Package Tracker Demo. All rights reserved.
         </div>
