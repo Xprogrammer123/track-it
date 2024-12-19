@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom"
-import axios from "axios";
 import {
   AppBar,
   Toolbar,
@@ -20,126 +18,106 @@ import {
   DialogContent,
   DialogActions,
   Snackbar,
+  Alert,
   Grid,
   Box,
-  Alert,
   CircularProgress,
-  TablePagination,
 } from "@mui/material";
-import { Search, Logout, PersonAdd, Add, Group, Delete } from "@mui/icons-material";
+import { Add, Edit, Delete, Logout } from "@mui/icons-material";
 import { useAuth } from "../context/AuthContext";
 
 const API_BASE_URL = "https://track-it-api.vercel.app/api/admin";
 
 const AdminPage = () => {
   const { state, logout } = useAuth();
-  const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
-  const [admins, setAdmins] = useState([]); // Track admins separately
-  const [analytics, setAnalytics] = useState({
-    totalUsers: 0,
-    newUsersThisMonth: 0,
-    activeUsers: 0,
-  });
-  const [viewAllAdmins, setViewAllAdmins] = useState(false); // Toggle between view modes
+  const [newUser, setNewUser] = useState({ name: "", email: "", role: "User" });
+  const [editUser, setEditUser] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
-  const [newAdmin, setNewAdmin] = useState({
-    name: "",
-    email: "",
-    country: "",
-    password: "",
-  });
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  // Fetch users and analytics data
+  // Fetch data on mount
   useEffect(() => {
     fetchUsers();
-    fetchAnalytics();
-    fetchAdmins();
   }, []);
 
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(`${API_BASE_URL}/accounts`, {
+      const response = await fetch(`${API_BASE_URL}/accounts`, {
         headers: { Authorization: `Bearer ${state.token}` },
       });
-      setUsers(response.data);
+      const data = await response.json();
+      setUsers(data);
     } catch (error) {
-      console.error("Error fetching users", error);
+      console.error("Error fetching users:", error);
     } finally {
       setLoading(false);
     }
   };
 
-  const fetchAnalytics = async () => {
+  const handleAddUser = async () => {
+    if (!newUser.name || !newUser.email) {
+      addNotification("Name and Email are required!");
+      return;
+    }
     try {
-      const response = await axios.get(`${API_BASE_URL}/accounts`, {
-        headers: { Authorization: `Bearer ${state.token}` },
+      const response = await fetch(`${API_BASE_URL}/accounts`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${state.token}`,
+        },
+        body: JSON.stringify(newUser),
       });
-      setAnalytics({
-        totalUsers: response.data.length,
-        newUsersThisMonth: response.data.filter(
-          (u) =>
-            new Date(u.registrationDate).getMonth() === new Date().getMonth()
-        ).length,
-        activeUsers: response.data.filter((u) =>
-          u.packages.some((pkg) => pkg.status === "Active")
-        ).length,
-      });
+      if (response.ok) {
+        fetchUsers();
+        setNewUser({ name: "", email: "", role: "User" });
+        addNotification("User added successfully!");
+      }
     } catch (error) {
-      console.error("Error fetching analytics", error);
+      console.error("Error adding user:", error);
     }
   };
 
-  const fetchAdmins = async () => {
+  const handleEditUser = async () => {
+    if (!editUser.name || !editUser.email) {
+      addNotification("Name and Email are required!");
+      return;
+    }
     try {
-      setLoading(true);
-      const response = await axios.get(`${API_BASE_URL}/admins`, {
-        headers: { Authorization: `Bearer ${state.token}` },
+      const response = await fetch(`${API_BASE_URL}/accounts/${editUser.id}`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${state.token}`,
+        },
+        body: JSON.stringify(editUser),
       });
-      setAdmins(response.data);
-    } catch (err) {
-      console.error("Error fetching admins", err);
-    } finally {
-      setLoading(false);
+      if (response.ok) {
+        fetchUsers();
+        setEditUser(null);
+        addNotification("User updated successfully!");
+      }
+    } catch (error) {
+      console.error("Error editing user:", error);
     }
   };
 
-  const handleSearch = (e) => setSearchQuery(e.target.value);
-
-  const handleLogout = () => logout();
-
-  const handleSendMessage = async () => {
-    addNotification("No Packages yet");
-  };
-
-  const handleDeleteAccount = async (userId) => {
+  const handleDeleteUser = async (userId) => {
     try {
-      await axios.delete(`${API_BASE_URL}/users/${userId}`, {
+      const response = await fetch(`${API_BASE_URL}/accounts/${userId}`, {
+        method: "DELETE",
         headers: { Authorization: `Bearer ${state.token}` },
       });
-      fetchUsers();
-      addNotification("Account deleted successfully.");
+      if (response.ok) {
+        fetchUsers();
+        addNotification("User deleted successfully!");
+      }
     } catch (error) {
-      console.error("Error deleting account", error);
-    }
-  };
-
-  const handleAddAdmin = async () => {
-    try {
-      await axios.post(`${API_BASE_URL}/admin`, newAdmin, {
-        headers: { Authorization: `Bearer ${state.token}` },
-      });
-      setOpenDialog(false);
-      fetchUsers();
-      addNotification("New admin added successfully.");
-    } catch (error) {
-      console.error("Error adding new admin", error);
+      console.error("Error deleting user:", error);
     }
   };
 
@@ -148,48 +126,20 @@ const AdminPage = () => {
     setOpenSnackbar(true);
   };
 
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-    setNewAdmin({ name: "", email: "", country: "", password: "" });
-  };
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
-  const toggleView = () => {
-    setViewAllAdmins(!viewAllAdmins);
-  };
-
   return (
-    <Box
-      sx={{
-        padding: 3,
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        
-      }}
-      
-    >
-      {/* Header */}
+    <Box sx={{ padding: 3, display: "flex", flexDirection: "column", alignItems: "center" }}>
       <AppBar position="static" sx={{ width: "100%", mb: 4 }} color="error">
         <Toolbar>
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             Welcome, {state.user?.name || state.user?.username}!
           </Typography>
-          <Button color="inherit" startIcon={<Logout />} onClick={handleLogout}>
+          <Button color="inherit" startIcon={<Logout />} onClick={logout}>
             Logout
           </Button>
         </Toolbar>
       </AppBar>
 
-      {/* Notifications Snackbar */}
+      {/* Snackbar */}
       <Snackbar
         open={openSnackbar}
         autoHideDuration={3000}
@@ -200,23 +150,23 @@ const AdminPage = () => {
         </Alert>
       </Snackbar>
 
-      {/* Search and Actions */}
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        mb={4}
-        sx={{ width: "100%" }}
-      >
+      {/* Add New User */}
+      <Box display="flex" gap={2} mb={4} width="100%">
         <TextField
-          label="Search users"
-          variant="outlined"
-          size="small"
-          value={searchQuery}
-          onChange={handleSearch}
-          InputProps={{ startAdornment: <Search sx={{ mr: 1 }} /> }}
+          label="Name"
+          value={newUser.name}
+          onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
+          fullWidth
         />
-       
+        <TextField
+          label="Email"
+          value={newUser.email}
+          onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
+          fullWidth
+        />
+        <Button variant="contained" startIcon={<Add />} onClick={handleAddUser}>
+          Add User
+        </Button>
       </Box>
 
       {/* Users Table */}
@@ -224,115 +174,72 @@ const AdminPage = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Username</TableCell>
+              <TableCell>Name</TableCell>
               <TableCell>Email</TableCell>
-              <TableCell>Registration Date</TableCell>
-              <TableCell>Status</TableCell>
+              <TableCell>Role</TableCell>
               <TableCell>Actions</TableCell>
             </TableRow>
           </TableHead>
-          {loading ? (
-            <TableBody>
+          <TableBody>
+            {loading ? (
               <TableRow>
-                <TableCell colSpan={5} align="center">
+                <TableCell colSpan={4} align="center">
                   <CircularProgress />
                 </TableCell>
               </TableRow>
-            </TableBody>
-          ) : (
-            <TableBody>
-              {(viewAllAdmins ? admins : users)
-                .filter(
-                  (user) =>
-                    user.name
-                      ?.toLowerCase()
-                      .includes(searchQuery.toLowerCase()) ||
-                    user.email
-                      ?.toLowerCase()
-                      .includes(searchQuery.toLowerCase())
-                )
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((user) => (
-                  <TableRow key={user.id}>
-                    <TableCell>{user.name}</TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>
-                      {new Date(user.registrationDate).toLocaleDateString()}
-                    </TableCell>
-                    <TableCell>
-                      <Box
-                        component="span"
-                        sx={{
-                          px: 2,
-                          py: 1,
-                          borderRadius: "4px",
-                          color: user.role === "admin" ? "green" : "red",
-                          backgroundColor:
-                            user.role === "admin" ? "#e8f5e9" : "#ffebee",
-                        }}
-                      >
-                        {user.role === "admin" ? "Admin" : "User"}
-                      </Box>
-                    </TableCell>
-                    <TableCell>
-                      <Link to="/input">
-                      <IconButton color="success">
-                        <Add onClick={() => handleSendMessage()} />
-                      </IconButton>
-                      </Link>
-                      <IconButton color="error">
-                        <Delete onClick={() => handleDeleteAccount(user.id)} />
-                      </IconButton>
-                    </TableCell>
-                  </TableRow>
-                ))}
-            </TableBody>
-          )}
+            ) : (
+              users.map((user) => (
+                <TableRow key={user.id}>
+                  <TableCell>{user.name}</TableCell>
+                  <TableCell>{user.email}</TableCell>
+                  <TableCell>{user.role}</TableCell>
+                  <TableCell>
+                    <IconButton
+                      color="primary"
+                      onClick={() => setEditUser(user)}
+                    >
+                      <Edit />
+                    </IconButton>
+                    <IconButton
+                      color="error"
+                      onClick={() => handleDeleteUser(user.id)}
+                    >
+                      <Delete />
+                    </IconButton>
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
         </Table>
       </TableContainer>
-      
-      {/*admin history button */}
-         <Link 
-           to ="/adhistory"
-            className="px-4 py-2 bg-red-500 text-white rounded-md hover:bg-red-600 transition"
-        >
-            History
-        </Link>
 
-      
-      {/* Pagination */}
-      <TablePagination
-        rowsPerPageOptions={[10, 25, 50]}
-        component="div"
-        count={viewAllAdmins ? admins.length : users.length}
-        rowsPerPage={rowsPerPage}
-        page={page}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-
-      {/* Dashboard Analytics */}
-      <Grid container spacing={2} my={4}>
-        <Grid item xs={12} md={4}>
-          <Paper sx={{ p: 2, textAlign: "center" }}>
-            <Typography variant="h6">Total Users</Typography>
-            <Typography variant="h4">{analytics.totalUsers}</Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Paper sx={{ p: 2, textAlign: "center" }}>
-            <Typography variant="h6">New Users This Month</Typography>
-            <Typography variant="h4">{analytics.newUsersThisMonth}</Typography>
-          </Paper>
-        </Grid>
-        <Grid item xs={12} md={4}>
-          <Paper sx={{ p: 2, textAlign: "center" }}>
-            <Typography variant="h6">Active Users</Typography>
-            <Typography variant="h4">{analytics.activeUsers}</Typography>
-          </Paper>
-        </Grid>
-      </Grid>
-
+      {/* Edit Dialog */}
+      <Dialog open={!!editUser} onClose={() => setEditUser(null)}>
+        <DialogTitle>Edit User</DialogTitle>
+        <DialogContent>
+          <TextField
+            label="Name"
+            value={editUser?.name || ""}
+            onChange={(e) => setEditUser({ ...editUser, name: e.target.value })}
+            fullWidth
+            margin="dense"
+          />
+          <TextField
+            label="Email"
+            value={editUser?.email || ""}
+            onChange={(e) => setEditUser({ ...editUser, email: e.target.value })}
+            fullWidth
+            margin="dense"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setEditUser(null)}>Cancel</Button>
+          <Button variant="contained" onClick={handleEditUser}>
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
