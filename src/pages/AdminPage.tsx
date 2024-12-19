@@ -150,9 +150,13 @@ const AdminPage = () => {
           {snackbarMessage}
         </Alert>
       </Snackbar>
-      <Link to="/input" classname="font-semibold px-7 py-4 shadow-md border border-red-600 rounded-2xl">
-      Add Tracking info
-      </Link>
+      <div className="flex justify-center mt-4">
+            <Link to="/input">
+                <button className="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">
+                  Add Tracking Info
+                </button>
+            </Link>
+        </div>
       {/* Users Table */}
       <TableContainer component={Paper} sx={{ width: "100%" }}>
         <Table>
