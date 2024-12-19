@@ -23,6 +23,7 @@ import {
   Box,
   CircularProgress,
 } from "@mui/material";
+import { Link } from "react-router-dom";
 import { Add, Edit, Delete, Logout } from "@mui/icons-material";
 import { useAuth } from "../context/AuthContext";
 
@@ -149,6 +150,9 @@ const AdminPage = () => {
           {snackbarMessage}
         </Alert>
       </Snackbar>
+      <Link to="/input" classname="font-semibold px-7 py-4 shadow-md border border-red-600 rounded-2xl">
+      Add Tracking info
+      </Link>
       {/* Users Table */}
       <TableContainer component={Paper} sx={{ width: "100%" }}>
         <Table>
