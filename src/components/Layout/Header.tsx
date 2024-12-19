@@ -12,7 +12,7 @@ export default function Header() {
 
   const menuItems = [
     { label: "Home", path: "/" },
-    { label: "Track Package", path: "/track" },
+    { label: "Logout", path: "/logout" },
     { label: "Shipping History", path: "/history" },
   ];
 
