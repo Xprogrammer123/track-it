@@ -216,20 +216,7 @@ const AdminPage = () => {
           onChange={handleSearch}
           InputProps={{ startAdornment: <Search sx={{ mr: 1 }} /> }}
         />
-        <Box>
-          <Button
-            variant="contained"
-            startIcon={<PersonAdd />}
-            onClick={() => setOpenDialog(true)}
-            sx={{ mr: 2 }}
-            color="error"
-          >
-            Add New Admin
-          </Button>
-          <Button variant="outlined" startIcon={<Group />} onClick={toggleView} color="error">
-            {viewAllAdmins ? "View All Users" : "View All Admins"}
-          </Button>
-        </Box>
+       
       </Box>
 
       {/* Users Table */}
