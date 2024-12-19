@@ -18,16 +18,14 @@ export default function HistoryPage() {
             <Package className="w-12 h-12 text-red-600" />
           </div>
           <h1 className="text-3xl font-bold text-center mb-8">
-            Shipping History
+            LogOut
           </h1>
           {state.isAuthenticated ? (
             <div className="text-center">
               <h2 className="text-xl font-semibold mb-4">
                 Welcome, {state.user?.name || state.user?.username}!
               </h2>
-              <p className="text-gray-600 mb-6">
-                View your package tracking history below.
-              </p>
+              
               <button
                 onClick={logout}
                 className="bg-red-600 text-white px-6 py-2 rounded-lg hover:bg-red-700 transition-colors"
