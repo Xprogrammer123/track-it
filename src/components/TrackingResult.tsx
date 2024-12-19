@@ -31,6 +31,7 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
         animate={{ scale: 1 }}
         transition={{ type: "spring", stiffness: 260, damping: 20 }}
       >
+        <img src="https://cdn.pixabay.com/photo/2014/04/02/16/19/barcode-306926_1280.png" classname="text-center mb-6"/>
         <StatusIcon className={`w-16 h-16 ${status.status === 'delivered' ? 'text-green-600' : 'text-red-600'}`} />
       </motion.div>
 
@@ -66,10 +67,6 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
         <div className="flex items-center justify-between text-sm">
           <span className="text-gray-600">Status</span>
           <span className="font-semibold capitalize">{status.status.replace('-', ' ')}</span>
-        </div>
-        <div className="flex items-center justify-between text-sm">
-          <span className="text-gray-600">Destination</span>
-          <span className="font-semibold">{trackingData.country}</span>
         </div>
         <div className="flex items-center justify-between text-sm">
           <span className="text-gray-600">Last Updated</span>
@@ -123,7 +120,7 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
         onClick={onReset}
         className="w-full mt-8 py-3 px-6 text-red-600 border-2 border-red-600 rounded-lg hover:bg-red-50 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
       >
-        Track Another Package
+        Track New package
       </motion.button>
     </motion.div>
   );
