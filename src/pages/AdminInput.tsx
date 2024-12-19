@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 const AdminUpdateForm = () => {
+    // State for form data
     const [formData, setFormData] = useState(() => {
-        // Retrieve saved form data from localStorage or use default values
         const savedData = localStorage.getItem("formData");
         return savedData
             ? JSON.parse(savedData)
@@ -18,43 +18,54 @@ const AdminUpdateForm = () => {
               };
     });
 
+    // State for tracking code
     const [trackingCode, setTrackingCode] = useState("");
     const [savedTrackingCode, setSavedTrackingCode] = useState(() => {
         return localStorage.getItem("savedTrackingCode") || "";
     });
 
+    // Effect to save tracking code to localStorage
     useEffect(() => {
-        // Save the tracking code to localStorage whenever it is updated
         if (savedTrackingCode) {
             localStorage.setItem("savedTrackingCode", savedTrackingCode);
         }
     }, [savedTrackingCode]);
 
+    // Handle form field changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
 
+    // Handle tracking code input changes
     const handleTrackingCodeChange = (e) => {
         setTrackingCode(e.target.value);
     };
 
+    // Save tracking code
     const handleSaveTrackingCode = () => {
-        if (trackingCode.trim() !== "") {
-            setSavedTrackingCode(trackingCode);
-            alert("Tracking code saved successfully.");
-        } else {
+        if (trackingCode.trim() === "") {
             alert("Please enter a valid tracking code.");
+            return;
         }
+        setSavedTrackingCode(trackingCode);
+        alert("Tracking code saved successfully.");
     };
 
+    // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Save the form data to localStorage
+        // Validate form data
+        if (!formData.destination || !formData.lastUpdated) {
+            alert("Please fill in all required fields.");
+            return;
+        }
+
         localStorage.setItem("formData", JSON.stringify(formData));
         alert("Data updated and synced successfully.");
         console.log("Form Data Submitted: ", formData);
-        // Add your backend sync logic here
+
+        // TODO: Add backend sync logic here
     };
 
     return (
