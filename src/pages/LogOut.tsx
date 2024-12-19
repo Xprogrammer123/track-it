@@ -3,7 +3,7 @@ import { Package } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
-export default function HistoryPage() {
+export default function LogOut() {
   const { state, logout } = useAuth();
 
   return (
