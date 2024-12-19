@@ -149,26 +149,6 @@ const AdminPage = () => {
           {snackbarMessage}
         </Alert>
       </Snackbar>
-
-      {/* Add New User */}
-      <Box display="flex" gap={2} mb={4} width="100%">
-        <TextField
-          label="Name"
-          value={newUser.name}
-          onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-          fullWidth
-        />
-        <TextField
-          label="Email"
-          value={newUser.email}
-          onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-          fullWidth
-        />
-        <Button variant="contained" startIcon={<Add />} onClick={handleAddUser}>
-          Add User
-        </Button>
-      </Box>
-
       {/* Users Table */}
       <TableContainer component={Paper} sx={{ width: "100%" }}>
         <Table>
