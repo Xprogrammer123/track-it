@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from "react";
 
 const AdminUpdateForm = () => {
-    const [formData, setFormData] = useState({
-        status: "processing",
-        destination: "",
-        lastUpdated: "",
-        shipperName: "",
-        shipperAddress: "",
-        receiverName: "",
-        receiverAddress: "",
-        comment: "",
+    const [formData, setFormData] = useState(() => {
+        // Retrieve saved form data from localStorage or use default values
+        const savedData = localStorage.getItem("formData");
+        return savedData
+            ? JSON.parse(savedData)
+            : {
+                  status: "processing",
+                  destination: "",
+                  lastUpdated: "",
+                  shipperName: "",
+                  shipperAddress: "",
+                  receiverName: "",
+                  receiverAddress: "",
+                  comment: "",
+              };
     });
 
     const [trackingCode, setTrackingCode] = useState("");
     const [savedTrackingCode, setSavedTrackingCode] = useState(() => {
-        // Retrieve saved tracking code from localStorage if it exists
         return localStorage.getItem("savedTrackingCode") || "";
     });
 
@@ -27,7 +32,7 @@ const AdminUpdateForm = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
+        setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
 
     const handleTrackingCodeChange = (e) => {
@@ -45,6 +50,9 @@ const AdminUpdateForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        // Save the form data to localStorage
+        localStorage.setItem("formData", JSON.stringify(formData));
+        alert("Data updated and synced successfully.");
         console.log("Form Data Submitted: ", formData);
         // Add your backend sync logic here
     };
