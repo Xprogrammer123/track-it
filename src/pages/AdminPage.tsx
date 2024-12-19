@@ -346,57 +346,6 @@ const AdminPage = () => {
         </Grid>
       </Grid>
 
-      {/* Add Admin Dialog */}
-      <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>Add New Admin</DialogTitle>
-        <DialogContent>
-          <TextField
-            label="Name"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={newAdmin.name}
-            onChange={(e) => setNewAdmin({ ...newAdmin, name: e.target.value })}
-          />
-          <TextField
-            label="Email"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={newAdmin.email}
-            onChange={(e) =>
-              setNewAdmin({ ...newAdmin, email: e.target.value })
-            }
-          />
-          <TextField
-            label="Country"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={newAdmin.country}
-            onChange={(e) =>
-              setNewAdmin({ ...newAdmin, country: e.target.value })
-            }
-          />
-          <TextField
-            label="Password"
-            type="password"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={newAdmin.password}
-            onChange={(e) =>
-              setNewAdmin({ ...newAdmin, password: e.target.value })
-            }
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog} variant="outlined" color="error">Cancel</Button>
-          <Button onClick={handleAddAdmin} variant="contained" color="error">
-            Add Admin
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Box>
   );
 };
