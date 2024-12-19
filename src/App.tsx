@@ -15,6 +15,7 @@ import RegisterForm from "./components/auth/RegisterForm";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import AdminPage from "./pages/AdminPage";
 import AdminInput from "./pages/AdminInput";
+import AdminHistory from "./pages/AdminHistory";
 import { useAuth } from "./context/AuthContext";
 
 // Define a wrapper for routes that need Layout
@@ -62,6 +63,7 @@ function App() {
           />
           <Route path="/history" element={<HistoryPage />} />
           <Route path="/input" element={<AdminInput />} />
+          <Route path="/adhistory" element={<AdminHistory />} />
         </Route>
 
         {/* Auth Pages */}
