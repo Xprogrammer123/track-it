@@ -12,8 +12,8 @@ export default function Header() {
 
   const menuItems = [
     { label: "Home", path: "/" },
+    { label: "Track", path: "/track" },
     { label: "Logout", path: "/logout" },
-    { label: "Shipping History", path: "/history" },
   ];
 
   const handleAdminClick = () => {
