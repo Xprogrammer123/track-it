@@ -35,7 +35,7 @@ export default function Header() {
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center space-x-2">
             <Package className="w-8 h-8 text-red-600" />
-            <span className="text-xl font-bold">MooreShipping</span>
+            <span className="text-xl font-bold">Xpackage Tracker</span>
           </Link>
 
           {/* Desktop Navigation */}
