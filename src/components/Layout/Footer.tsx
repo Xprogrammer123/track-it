@@ -60,7 +60,7 @@ export default function Footer() {
           <div>
             <h3 className="text-xl font-bold mb-4">Contact</h3>
             <p className="text-gray-300">
-              Email: support@packagetracker.demo<br />
+              Email: Mooreshipping@gmail.com<br />
               Phone: (555) 123-4567<br />
               Hours: Mon-Fri 9am-5pm EST
             </p>
@@ -69,7 +69,7 @@ export default function Footer() {
 
         <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
           <Link to="/login">
-          © 2024 Package Tracker Demo. All rights reserved.
+          © 2024  Moore Shipping LTD. All rights reserved.
             </Link>
         </div>
       </div>
