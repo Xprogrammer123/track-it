@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { FaTrash, FaEdit } from "react-icons/fa";
+import { Trash2, Edit3 } from "lucide-react";
 
 const AdminPage = () => {
     const [data, setData] = useState([]);
@@ -145,13 +145,13 @@ const AdminPage = () => {
                                                 onClick={() => handleEdit(index)}
                                                 className="text-blue-500"
                                             >
-                                                <FaEdit />
+                                                <Edit3 />
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(index)}
                                                 className="text-red-500"
                                             >
-                                                <FaTrash />
+                                                <Trash2 />
                                             </button>
                                         </>
                                     )}
