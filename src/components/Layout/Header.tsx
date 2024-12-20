@@ -13,7 +13,7 @@ export default function Header() {
   const menuItems = [
     { label: "Home", path: "/" },
     { label: "Track", path: "/track" },
-    { label: "Logout", path: "/logout" },
+  
   ];
 
   const handleAdminClick = () => {
