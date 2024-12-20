@@ -164,7 +164,7 @@ const AdminPage = () => {
                         </tbody>
                     </table>
                 </div>
-                <div className="mt-3">
+                <div className="mt-3 mb-14">
                     <Link to="/input">
                         <button className="w-auto h-auto px-4 py-2 border border-red-500 rounded-md text-red-500 bg-white hover:bg-red-500 hover:text-white transition-all duration-200">
                             Add Tracking Info
