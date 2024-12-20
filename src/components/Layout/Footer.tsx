@@ -68,7 +68,9 @@ export default function Footer() {
         </div>
 
         <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
+          <Link to="/login">
           © 2024 Package Tracker Demo. All rights reserved.
+            </Link>
         </div>
       </div>
 
