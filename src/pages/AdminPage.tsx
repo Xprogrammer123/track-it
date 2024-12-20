@@ -162,11 +162,14 @@ const AdminPage = () => {
                     </tbody>
                 </table>
             </div>
-            <div className="">
-            <Link to="/input">
-            <button className="w-7 h-5 mt-3 border border-red-500 rounded-md text-red-500 hover:bg-red-600 hover:text-white">Add Tracking Info</button>
-            </Link>
-            </div>
+            <div className="mt-3">
+    <Link to="/input">
+        <button className="w-auto h-auto px-4 py-2 border border-red-500 rounded-md text-red-500 bg-white hover:bg-red-500 hover:text-white transition-all duration-200">
+            Add Tracking Info
+        </button>
+    </Link>
+</div>
+
         </div>
     );
 };
