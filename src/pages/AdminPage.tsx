@@ -170,10 +170,10 @@ const AdminPage = () => {
         </button>
     </Link>
 </div>
-
+<Footer/>
         </div>
     );
-    <Footer/>
+    
 };
 
 export default AdminPage;
