@@ -94,7 +94,7 @@ export default function Header() {
             exit={{ opacity: 0, height: 0 }}
             className="md:hidden bg-white border-t"
           >
-            <nav className="container mx-auto px-4 py-4 space-y-4">
+            <nav className="container mx-auto px-4 py-4 space-y-4 grid grid-cols-2 flex">
               {menuItems.map((item) => (
                 <Link
                   key={item.path}
