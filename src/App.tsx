@@ -9,7 +9,7 @@ import React from "react";
 import Layout from "./components/Layout";
 import HomePage from "./pages/HomePage";
 import TrackingPage from "./pages/TrackingPage";
-import LogOut from "./pages/LogOut";
+
 import LoginForm from "./components/auth/LoginForm";
 import RegisterForm from "./components/auth/RegisterForm";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
@@ -61,7 +61,7 @@ function App() {
               />
             }
           />
-          <Route path="/logout" element={<LogOut />} />
+        
           <Route path="/input" element={<AdminInput />} />
           <Route path="/adhistory" element={<AdminHistory />} />
         </Route>
