@@ -15,8 +15,9 @@ export default function Header() {
     { label: "Track Package", path: "/track" },
     { label: "About Us ", path: "/track" },
     { label: "Testimonial", path: "/track" },
-    { label: "Blog", path: "/track" },
+    { label: "Our Services", path: "/track" },
     { label: "Contact", path: "/track" },
+    { label: "Faq", path: "/track" },
   
   ];
 
