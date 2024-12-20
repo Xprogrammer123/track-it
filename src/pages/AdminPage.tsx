@@ -162,9 +162,9 @@ const AdminPage = () => {
                     </tbody>
                 </table>
             </div>
-            <div classname="">
+            <div className="">
             <Link to="/input">
-            <button classnane="w-7 h-5 mt-3 border border-red-500 rounded-md text-red-500 hover:bg-red-600 hover:text-white">Add Tracking Info</button>
+            <button className="w-7 h-5 mt-3 border border-red-500 rounded-md text-red-500 hover:bg-red-600 hover:text-white">Add Tracking Info</button>
             </Link>
             </div>
         </div>
