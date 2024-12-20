@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Trash2, Edit3 } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const AdminPage = () => {
     const [data, setData] = useState([]);
@@ -160,6 +161,11 @@ const AdminPage = () => {
                         ))}
                     </tbody>
                 </table>
+            </div>
+            <div classname="">
+            <Link to="/input">
+            <button classnane="w-7 h-5 mt-3 border border-red-500 rounded-md text-red-500 hover:bg-red-600 hover:text-white">Add Tracking Info</button>
+            </Link>
             </div>
         </div>
     );
