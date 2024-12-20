@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Trash2, Edit3 } from "lucide-react";
 import { Link } from "react-router-dom";
-import 
+import Footer from "./components/layout/Footer"
 
 const AdminPage = () => {
     const [data, setData] = useState([]);
@@ -173,6 +173,7 @@ const AdminPage = () => {
 
         </div>
     );
+    <Footer/>
 };
 
 export default AdminPage;
