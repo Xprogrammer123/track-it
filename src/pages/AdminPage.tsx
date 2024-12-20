@@ -52,17 +52,17 @@ const AdminPage = () => {
                 <table className="w-full border-collapse border border-gray-300 whitespace-nowrap">
                     <thead>
                         <tr>
-                            <th className="border border-gray-300 p-2">#</th>
-                            <th className="border border-gray-300 p-2">Status</th>
-                            <th className="border border-gray-300 p-2">Last Updated</th>
-                            <th className="border border-gray-300 p-2">Comment</th>
-                            <th className="border border-gray-300 p-2">Tracking Code</th>
-                            <th className="border border-gray-300 p-2">Destination</th>
-                            <th className="border border-gray-300 p-2">Shipper Name</th>
-                            <th className="border border-gray-300 p-2">Shipper Address</th>
-                            <th className="border border-gray-300 p-2">Receiver Name</th>
-                            <th className="border border-gray-300 p-2">Receiver Address</th>
-                            <th className="border border-gray-300 p-2">Actions</th>
+                            <th className="border border-gray-300 px-2 py-4">#</th>
+                            <th className="border border-gray-300 px-2 py-4">Status</th>
+                            <th className="border border-gray-300 px-2 py-4">Last Updated</th>
+                            <th className="border border-gray-300 px-2 py-4">Comment</th>
+                            <th className="border border-gray-300 px-2 py-4">Tracking Code</th>
+                            <th className="border border-gray-300 px-2 py-4">Destination</th>
+                            <th className="border border-gray-300 px-2 py-4">Shipper Name</th>
+                            <th className="border border-gray-300 px-2 py-4">Shipper Address</th>
+                            <th className="border border-gray-300 px-2 py-4">Receiver Name</th>
+                            <th className="border border-gray-300 px-2 py-4">Receiver Address</th>
+                            <th className="border border-gray-300 px-2 py-4">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -71,7 +71,7 @@ const AdminPage = () => {
                                 <td className="border border-gray-300 p-2">{index + 1}</td>
                                 {editIndex === index ? (
                                     <>
-                                        <td className="border border-gray-300 p-2">
+                                        <td className="border border-gray-300 px-2 py-4">
                                             <select
                                                 name="status"
                                                 value={editableData.status}
@@ -84,7 +84,7 @@ const AdminPage = () => {
                                                 <option value="delivered">Delivered</option>
                                             </select>
                                         </td>
-                                        <td className="border border-gray-300 p-2">
+                                        <td className="border border-gray-300 px-2 py-4">
                                             <input
                                                 type="date"
                                                 name="lastUpdated"
@@ -93,7 +93,7 @@ const AdminPage = () => {
                                                 className="w-full border border-gray-300 rounded-md"
                                             />
                                         </td>
-                                        <td className="border border-gray-300 p-2">
+                                        <td className="border border-gray-300 px-2 py-4">
                                             <textarea
                                                 name="comment"
                                                 value={editableData.comment}
@@ -101,7 +101,7 @@ const AdminPage = () => {
                                                 className="w-full border border-gray-300 rounded-md"
                                             ></textarea>
                                         </td>
-                                        <td className="border border-gray-300 p-2">
+                                        <td className="border border-gray-300 px-2 py-4">
                                             <input
                                                 type="text"
                                                 name="trackingCode"
@@ -113,18 +113,18 @@ const AdminPage = () => {
                                     </>
                                 ) : (
                                     <>
-                                        <td className="border border-gray-300 p-2">{item.status}</td>
-                                        <td className="border border-gray-300 p-2">{item.lastUpdated}</td>
-                                        <td className="border border-gray-300 p-2">{item.comment}</td>
-                                        <td className="border border-gray-300 p-2">{item.trackingCode}</td>
+                                        <td className="border border-gray-300 px-2 py-4">{item.status}</td>
+                                        <td className="border border-gray-300 px-2 py-4">{item.lastUpdated}</td>
+                                        <td className="border border-gray-300 px-2 py-4">{item.comment}</td>
+                                        <td className="border border-gray-300 px-2 py-4">{item.trackingCode}</td>
                                     </>
                                 )}
-                                <td className="border border-gray-300 p-2">{item.destination}</td>
-                                <td className="border border-gray-300 p-2">{item.shipperName}</td>
-                                <td className="border border-gray-300 p-2">{item.shipperAddress}</td>
-                                <td className="border border-gray-300 p-2">{item.receiverName}</td>
-                                <td className="border border-gray-300 p-2">{item.receiverAddress}</td>
-                                <td className="border border-gray-300 p-2 flex items-center space-x-2">
+                                <td className="border border-gray-300 px-2 py-4">{item.destination}</td>
+                                <td className="border border-gray-300 px-2 py-4">{item.shipperName}</td>
+                                <td className="border border-gray-300 px-2 py-4">{item.shipperAddress}</td>
+                                <td className="border border-gray-300 px-2 py-4">{item.receiverName}</td>
+                                <td className="border border-gray-300 px-2 py-4">{item.receiverAddress}</td>
+                                <td className="border border-gray-300 px-2 py-4 flex items-center space-x-2">
                                     {editIndex === index ? (
                                         <>
                                             <button
