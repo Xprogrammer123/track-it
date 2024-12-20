@@ -80,7 +80,7 @@ export default function Header() {
         </div>
       </div>
 
-      {/* Mobile Navigation */}
+      {/* Mobile Navigation 
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
@@ -122,6 +122,7 @@ export default function Header() {
           </motion.div>
         )}
       </AnimatePresence>
+      */}
     </header>
   );
 }
