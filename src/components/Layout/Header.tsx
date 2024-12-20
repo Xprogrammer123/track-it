@@ -12,7 +12,11 @@ export default function Header() {
 
   const menuItems = [
     { label: "Home", path: "/" },
-    { label: "Track", path: "/track" },
+    { label: "Track Package", path: "/track" },
+    { label: "About Us ", path: "/track" },
+    { label: "Testimonial", path: "/track" },
+    { label: "Blog", path: "/track" },
+    { label: "Contact", path: "/track" },
   
   ];
 
@@ -114,7 +118,7 @@ export default function Header() {
               {state.isAdmin && (
                 <Button
                   onClick={handleAdminClick}
-                  className="block text-gray-600 hover:text-red-600 transition-colors"
+                  className="text-red-600 hover:text-red-600 "
                 >
                   Admin Dashboard
                 </Button>
