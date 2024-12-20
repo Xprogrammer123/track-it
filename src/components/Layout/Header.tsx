@@ -99,7 +99,7 @@ export default function Header() {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className="block text-gray-600 hover:text-red-600 transition-colors"
+                  className="block text-gray-600 hover:text-red-600 transition-colors grid grid-cols-2 flex"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   {item.label}
