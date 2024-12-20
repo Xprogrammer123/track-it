@@ -109,7 +109,7 @@ export default function Header() {
                     Login
                   </Link>
                 </div>*/}
-            .
+            
               )}
               {state.isAdmin && (
                 <Button
