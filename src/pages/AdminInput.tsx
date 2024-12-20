@@ -1,111 +1,74 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 const AdminUpdateForm = () => {
-    // State for form data
-    const [formData, setFormData] = useState(() => {
-        const savedData = localStorage.getItem("formData");
-        return savedData
-            ? JSON.parse(savedData)
-            : {
-                  status: "processing",
-                  destination: "",
-                  lastUpdated: "",
-                  shipperName: "",
-                  shipperAddress: "",
-                  receiverName: "",
-                  receiverAddress: "",
-                  comment: "",
-              };
+    const [formData, setFormData] = useState({
+        status: "processing",
+        lastUpdated: "",
+        comment: "",
+        trackingCode: "",
+        destination: "",
+        shipperName: "",
+        shipperAddress: "",
+        receiverName: "",
+        receiverAddress: "",
     });
 
-    // State for tracking code
-    const [trackingCode, setTrackingCode] = useState("");
-    const [savedTrackingCode, setSavedTrackingCode] = useState(() => {
-        return localStorage.getItem("savedTrackingCode") || "";
-    });
-
-    // Effect to save tracking code to localStorage
-    useEffect(() => {
-        if (savedTrackingCode) {
-            localStorage.setItem("savedTrackingCode", savedTrackingCode);
-        }
-    }, [savedTrackingCode]);
-
-    // Handle form field changes
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
 
-    // Handle tracking code input changes
-    const handleTrackingCodeChange = (e) => {
-        setTrackingCode(e.target.value);
-    };
-
-    // Save tracking code
-    const handleSaveTrackingCode = () => {
-        if (trackingCode.trim() === "") {
-            alert("Please enter a valid tracking code.");
-            return;
-        }
-        setSavedTrackingCode(trackingCode);
-        alert("Tracking code saved successfully.");
-    };
-
-    // Handle form submission
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Validate form data
-        if (!formData.destination || !formData.lastUpdated) {
+
+        // Validate required fields
+        const { status, lastUpdated, trackingCode, destination } = formData;
+        if (!lastUpdated || trackingCode.trim() === "" || destination.trim() === "") {
             alert("Please fill in all required fields.");
             return;
         }
 
-        localStorage.setItem("formData", JSON.stringify(formData));
-        alert("Data updated and synced successfully.");
-        console.log("Form Data Submitted: ", formData);
+        // Save to localStorage
+        const existingData = JSON.parse(localStorage.getItem("adminData")) || [];
+        existingData.push(formData);
+        localStorage.setItem("adminData", JSON.stringify(existingData));
 
-        // TODO: Add backend sync logic here
+        alert("Data updated and synced successfully.");
+        // Reset the form
+        setFormData({
+            status: "processing",
+            lastUpdated: "",
+            comment: "",
+            trackingCode: "",
+            destination: "",
+            shipperName: "",
+            shipperAddress: "",
+            receiverName: "",
+            receiverAddress: "",
+        });
     };
 
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-md">
             <h1 className="text-2xl font-bold mb-4">Admin Update Form</h1>
-
             <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Status and Destination */}
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <label htmlFor="status" className="block font-medium">
-                            Status
-                        </label>
-                        <select
-                            id="status"
-                            name="status"
-                            value={formData.status}
-                            onChange={handleChange}
-                            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                        >
-                            <option value="processing">Processing</option>
-                            <option value="in-transit">In-Transit</option>
-                            <option value="on-hold">On-Hold</option>
-                            <option value="delivered">Delivered</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label htmlFor="destination" className="block font-medium">
-                            Destination
-                        </label>
-                        <input
-                            type="text"
-                            id="destination"
-                            name="destination"
-                            value={formData.destination}
-                            onChange={handleChange}
-                            placeholder="Enter destination"
-                            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                        />
-                    </div>
+                {/* Status */}
+                <div>
+                    <label htmlFor="status" className="block font-medium">
+                        Status
+                    </label>
+                    <select
+                        id="status"
+                        name="status"
+                        value={formData.status}
+                        onChange={handleChange}
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                    >
+                        <option value="processing">Processing</option>
+                        <option value="in-transit">In-Transit</option>
+                        <option value="on-hold">On-Hold</option>
+                        <option value="delivered">Delivered</option>
+                    </select>
                 </div>
 
                 {/* Last Updated */}
@@ -121,76 +84,6 @@ const AdminUpdateForm = () => {
                         onChange={handleChange}
                         className="mt-1 block w-full border border-gray-300 rounded-md p-2"
                     />
-                </div>
-
-                {/* Shipper Information */}
-                <div>
-                    <h2 className="text-xl font-semibold mt-4">Shipper Information</h2>
-                    <div className="mt-2 space-y-4">
-                        <div>
-                            <label htmlFor="shipperName" className="block font-medium">
-                                Name
-                            </label>
-                            <input
-                                type="text"
-                                id="shipperName"
-                                name="shipperName"
-                                value={formData.shipperName}
-                                onChange={handleChange}
-                                placeholder="Enter shipper name"
-                                className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="shipperAddress" className="block font-medium">
-                                Address
-                            </label>
-                            <textarea
-                                id="shipperAddress"
-                                name="shipperAddress"
-                                value={formData.shipperAddress}
-                                onChange={handleChange}
-                                placeholder="Enter shipper address"
-                                className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                                rows="3"
-                            ></textarea>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Receiver Information */}
-                <div>
-                    <h2 className="text-xl font-semibold mt-4">Receiver Information</h2>
-                    <div className="mt-2 space-y-4">
-                        <div>
-                            <label htmlFor="receiverName" className="block font-medium">
-                                Name
-                            </label>
-                            <input
-                                type="text"
-                                id="receiverName"
-                                name="receiverName"
-                                value={formData.receiverName}
-                                onChange={handleChange}
-                                placeholder="Enter receiver name"
-                                className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                            />
-                        </div>
-                        <div>
-                            <label htmlFor="receiverAddress" className="block font-medium">
-                                Address
-                            </label>
-                            <textarea
-                                id="receiverAddress"
-                                name="receiverAddress"
-                                value={formData.receiverAddress}
-                                onChange={handleChange}
-                                placeholder="Enter receiver address"
-                                className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                                rows="3"
-                            ></textarea>
-                        </div>
-                    </div>
                 </div>
 
                 {/* Comment */}
@@ -209,39 +102,109 @@ const AdminUpdateForm = () => {
                     ></textarea>
                 </div>
 
-                {/* Tracking Code Input */}
+                {/* Tracking Code */}
                 <div>
                     <label htmlFor="trackingCode" className="block font-medium">
                         Tracking Code
                     </label>
-                    <div className="flex items-center space-x-2">
-                        <input
-                            type="text"
-                            id="trackingCode"
-                            value={trackingCode}
-                            onChange={handleTrackingCodeChange}
-                            placeholder="Enter tracking code"
-                            className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                        />
-                        <button
-                            type="button"
-                            onClick={handleSaveTrackingCode}
-                            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-                        >
-                            Save
-                        </button>
-                    </div>
+                    <input
+                        type="text"
+                        id="trackingCode"
+                        name="trackingCode"
+                        value={formData.trackingCode}
+                        onChange={handleChange}
+                        placeholder="Enter tracking code"
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                    />
+                </div>
+
+                {/* Destination */}
+                <div>
+                    <label htmlFor="destination" className="block font-medium">
+                        Destination
+                    </label>
+                    <input
+                        type="text"
+                        id="destination"
+                        name="destination"
+                        value={formData.destination}
+                        onChange={handleChange}
+                        placeholder="Enter destination"
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                    />
+                </div>
+
+                {/* Shipper Name */}
+                <div>
+                    <label htmlFor="shipperName" className="block font-medium">
+                        Shipper Name
+                    </label>
+                    <input
+                        type="text"
+                        id="shipperName"
+                        name="shipperName"
+                        value={formData.shipperName}
+                        onChange={handleChange}
+                        placeholder="Enter shipper name"
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                    />
+                </div>
+
+                {/* Shipper Address */}
+                <div>
+                    <label htmlFor="shipperAddress" className="block font-medium">
+                        Shipper Address
+                    </label>
+                    <input
+                        type="text"
+                        id="shipperAddress"
+                        name="shipperAddress"
+                        value={formData.shipperAddress}
+                        onChange={handleChange}
+                        placeholder="Enter shipper address"
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                    />
+                </div>
+
+                {/* Receiver Name */}
+                <div>
+                    <label htmlFor="receiverName" className="block font-medium">
+                        Receiver Name
+                    </label>
+                    <input
+                        type="text"
+                        id="receiverName"
+                        name="receiverName"
+                        value={formData.receiverName}
+                        onChange={handleChange}
+                        placeholder="Enter receiver name"
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                    />
+                </div>
+
+                {/* Receiver Address */}
+                <div>
+                    <label htmlFor="receiverAddress" className="block font-medium">
+                        Receiver Address
+                    </label>
+                    <input
+                        type="text"
+                        id="receiverAddress"
+                        name="receiverAddress"
+                        value={formData.receiverAddress}
+                        onChange={handleChange}
+                        placeholder="Enter receiver address"
+                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
+                    />
                 </div>
 
                 {/* Submit Button */}
-                <div>
-                    <button
-                        type="submit"
-                        className="w-full bg-red-500 text-white font-medium py-2 px-4 rounded-md hover:bg-red-600"
-                    >
-                        Update and Sync
-                    </button>
-                </div>
+                <button
+                    type="submit"
+                    className="w-full bg-red-500 text-white font-medium py-2 px-4 rounded-md hover:bg-red-600"
+                >
+                    Update and Sync
+                </button>
             </form>
         </div>
     );
