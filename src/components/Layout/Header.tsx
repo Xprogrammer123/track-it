@@ -101,14 +101,15 @@ export default function Header() {
                 </Link>
               ))}
               {!state.isAuthenticated && (
-                <div className="mt-8 flex justify-center items-center">
+            {/*<div className="mt-8 flex justify-center items-center">
                   <Link
                     to="/login"
                     className="text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
                   >
                     Login
                   </Link>
-                </div>
+                </div>*/}
+            .
               )}
               {state.isAdmin && (
                 <Button
