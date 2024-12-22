@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Package } from 'lucide-react';
-import type { TrackingFormData } from '../types/tracking';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Package } from "lucide-react";
+import axios from "axios";
+
+import type { TrackingFormData } from "../types/tracking";
 
 interface Props {
   onSubmit: (data: TrackingFormData) => void;
@@ -10,27 +12,64 @@ interface Props {
 
 export default function TrackingForm({ onSubmit, isLoading }: Props) {
   const [formData, setFormData] = useState<TrackingFormData>({
-    trackingCode: '',
-    name: '',
-    country: '',
-    email: '',
+    trackingCode: "",
+    name: "",
+    destination: "",
+    email: "",
+    receiverName: "",
+    receiverAddress: "",
+    shipperName: "",
+    shipperAddress: "",
+    comment: "",
   });
 
   const [error, setError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Hardcoded tracking code for validation
-    const validTrackingCode = "ABC123"; // Replace with the admin's saved code
-
-    if (formData.trackingCode !== validTrackingCode) {
-      setError("Invalid tracking code. Please try again.");
-    } else {
-      setError(null);
-      onSubmit(formData);
+    setError(null);
+    const { trackingCode } = formData;
+  
+    if (!trackingCode) {
+      setError("Tracking code is required.");
+      return;
+    }
+  
+    try {
+      const response = await axios.get(
+        `https://track-it-api.vercel.app/api/packages/package/tracking/${trackingCode}`
+      );
+  
+      // Extract data from the response
+      const packageData = response.data.package;
+  
+      // Update the formData state with values from the API
+      setFormData({
+        ...formData,
+        destination: packageData.destination,
+        receiverName: packageData.receiver_name,
+        receiverAddress: packageData.receiver_address,
+        shipperName: packageData.shipper_name,
+        shipperAddress: packageData.shipper_address,
+        comment: packageData.comment,
+      });
+  
+      // Pass the data to the parent component
+      onSubmit({
+        ...formData,
+        destination: packageData.destination,
+        receiverName: packageData.receiver_name,
+        receiverAddress: packageData.receiver_address,
+        shipperName: packageData.shipper_name,
+        shipperAddress: packageData.shipper_address,
+        comment: packageData.comment,
+      });
+    } catch (err) {
+      console.error(err);
+      setError("Failed to fetch package details. Please check the tracking code.");
     }
   };
+  
 
   return (
     <motion.div
@@ -48,11 +87,12 @@ export default function TrackingForm({ onSubmit, isLoading }: Props) {
             Tracking Code
           </label>
           <input
-            type="text"
-            required
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-            value={formData.trackingCode}
-            onChange={(e) => setFormData({ ...formData, trackingCode: e.target.value })}
+          title="Tracking Code"
+          type="text"
+          required
+          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+          value={formData.trackingCode}
+          onChange={(e) => setFormData({ ...formData, trackingCode: e.target.value })}
           />
         </div>
         <div>
@@ -60,6 +100,7 @@ export default function TrackingForm({ onSubmit, isLoading }: Props) {
             Your Name
           </label>
           <input
+          title="Your name"
             type="text"
             required
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
@@ -67,8 +108,7 @@ export default function TrackingForm({ onSubmit, isLoading }: Props) {
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           />
         </div>
-       
-        {error && <p className="text-red-500 text-sm">{error}</p>}
+        {error && <p className="text-red-500 text-center border-red-500 border rounded-md py-2 px-4">{error}</p>}
         <motion.button
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
@@ -83,7 +123,7 @@ export default function TrackingForm({ onSubmit, isLoading }: Props) {
               className="w-6 h-6 border-2 border-white border-t-transparent rounded-full mx-auto"
             />
           ) : (
-            'Track Package'
+            "Track Package"
           )}
         </motion.button>
       </form>

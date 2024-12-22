@@ -1,7 +1,7 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 import { Package, Truck, Box, CheckCircle } from 'lucide-react';
 import { format } from 'date-fns';
+import { TrackingFormData, TrackingStatus } from '../types/tracking';
 
 interface Props {
   trackingData: TrackingFormData;
@@ -31,7 +31,7 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
         animate={{ scale: 1 }}
         transition={{ type: "spring", stiffness: 260, damping: 20 }}
       >
-        <img src="https://cdn.pixabay.com/photo/2014/04/02/16/19/barcode-306926_1280.png" classname="text-center mb-6"/>
+        <img title='barcode' src="https://cdn.pixabay.com/photo/2014/04/02/16/19/barcode-306926_1280.png" className="text-center mb-6"/>
         <StatusIcon className={`w-16 h-16 ${status.status === 'delivered' ? 'text-green-600' : 'text-red-600'}`} />
       </motion.div>
 
@@ -41,6 +41,9 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
         </h2>
         <p className="text-gray-600 mb-4">
           Tracking Code: {trackingData.trackingCode}
+        </p>
+        <p className="text-gray-600 mb-4">
+          Destination: {trackingData.destination}
         </p>
         
         {status.status === 'delivered' ? (
@@ -82,11 +85,11 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
             <span className="text-gray-600">Name</span>
-            <span className="font-semibold">{trackingData.shipperName || 'Default Shipper'}</span>
+            <span className="font-semibold">{trackingData.shipperName}</span>
           </div>
           <div className="text-sm">
             <span className="text-gray-600">Address</span>
-            <p className="font-semibold text-gray-700">{trackingData.shipperAddress || '123 Default St, Default City'}</p>
+            <p className="font-semibold text-gray-700">{trackingData.shipperAddress}</p>
           </div>
         </div>
       </div>
@@ -97,11 +100,11 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
             <span className="text-gray-600">Name</span>
-            <span className="font-semibold">{trackingData.receiverName || 'Default Receiver'}</span>
+            <span className="font-semibold">{trackingData.receiverName}</span>
           </div>
           <div className="text-sm">
             <span className="text-gray-600">Address</span>
-            <p className="font-semibold text-gray-700">{trackingData.receiverAddress || '456 Default Blvd, Default Town'}</p>
+            <p className="font-semibold text-gray-700">{trackingData.receiverAddress}</p>
           </div>
         </div>
       </div>
@@ -110,7 +113,7 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
       <div className="mt-6">
         <h3 className="text-lg font-semibold mb-2">Comment</h3>
         <p className="text-sm text-gray-700">
-          {trackingData.comment || 'No additional comments provided.'}
+          {trackingData.comment}
         </p>
       </div>
 

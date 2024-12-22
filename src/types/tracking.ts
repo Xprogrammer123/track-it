@@ -1,8 +1,13 @@
 export interface TrackingFormData {
   trackingCode: string;
   name: string;
-  country: string;
+  destination: string;
   email: string;
+  receiverName: any;
+  receiverAddress: any;
+  shipperName: any;
+  shipperAddress: any;
+  comment: any;
 }
 
 export interface TrackingStatus {
