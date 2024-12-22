@@ -14,7 +14,6 @@ import LoginForm from "./components/auth/LoginForm";
 import RegisterForm from "./components/auth/RegisterForm";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import AdminPage from "./pages/AdminPage";
-import AdminInput from "./pages/AdminInput";
 import AdminHistory from "./pages/AdminHistory";
 import { useAuth } from "./context/AuthContext";
 
@@ -61,8 +60,6 @@ function App() {
               />
             }
           />
-        
-          <Route path="/input" element={<AdminInput />} />
           <Route path="/adhistory" element={<AdminHistory />} />
         </Route>
 

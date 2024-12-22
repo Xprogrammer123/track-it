@@ -1,213 +1,278 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import axios from "axios";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Button,
+  TextField,
+  CircularProgress,
+  MenuItem,
+} from "@mui/material";
+import { useAuth } from "../context/AuthContext";
 
-const AdminUpdateForm = () => {
-    const [formData, setFormData] = useState({
-        status: "processing",
-        lastUpdated: "",
-        comment: "",
+const AdminAddTrackingForm = ({ open, onClose }: any) => {
+  const { state } = useAuth();
+  const [formData, setFormData] = useState({
+    trackingCode: "",
+    destination: "",
+    shipperName: "",
+    shipperAddress: "",
+    receiverName: "",
+    receiverAddress: "",
+    status: "",
+    comment: "",
+    daysRemaining: "",
+    deliveryDate: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+
+    const {
+      trackingCode,
+      destination,
+      shipperName,
+      shipperAddress,
+      receiverName,
+      receiverAddress,
+      status,
+      comment,
+      daysRemaining,
+      deliveryDate,
+    } = formData;
+
+    // Validate required fields
+    if (
+      !trackingCode ||
+      !destination ||
+      !shipperName ||
+      !shipperAddress ||
+      !receiverName ||
+      !receiverAddress ||
+      !status ||
+      !comment ||
+      !daysRemaining ||
+      !deliveryDate
+    ) {
+      alert("Please fill in all required fields.");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    const requestBody = {
+      trackingCode,
+      destination,
+      shipperName,
+      shipperAddress,
+      receiverName,
+      receiverAddress,
+      status,
+      comment,
+      daysRemaining: Number(daysRemaining),
+      deliveryDate,
+    };
+
+    try {
+      // Send POST request to add tracking info
+      await axios.post(
+        "https://track-it-api.vercel.app/api/admin/package",
+        requestBody,
+        {
+          headers: { Authorization: `Bearer ${state.token}` },
+        }
+      );
+
+      alert("Tracking information added successfully.");
+
+      // Close the dialog after successful submission
+      onClose();
+
+      // Reset form data
+      setFormData({
         trackingCode: "",
         destination: "",
         shipperName: "",
         shipperAddress: "",
         receiverName: "",
         receiverAddress: "",
-    });
+        status: "",
+        comment: "",
+        daysRemaining: "",
+        deliveryDate: "",
+      });
+    } catch (err) {
+      console.error(err);
+      setError("An error occurred while adding tracking information.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({ ...prevData, [name]: value }));
-    };
+  return (
+    <Dialog open={open} onClose={onClose}>
+      <DialogTitle>Add Tracking Information</DialogTitle>
+      <DialogContent>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* Status */}
+          <TextField
+            select
+            label="Status"
+            name="status"
+            value={formData.status}
+            onChange={handleChange}
+            required
+            fullWidth
+            variant="outlined"
+            margin="normal"
+          >
+            <MenuItem value="Pending">Processing</MenuItem>
+            <MenuItem value="In Transit">In Transit</MenuItem>
+            <MenuItem value="Delivered">On Hold</MenuItem>
+            <MenuItem value="Delivered">Delivered</MenuItem>
+          </TextField>
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+          {/* Tracking Code */}
+          <TextField
+            label="Tracking Code"
+            name="trackingCode"
+            value={formData.trackingCode}
+            onChange={handleChange}
+            required
+            fullWidth
+            variant="outlined"
+            margin="normal"
+          />
 
-        // Validate required fields
-        const { status, lastUpdated, trackingCode, destination } = formData;
-        if (!lastUpdated || trackingCode.trim() === "" || destination.trim() === "") {
-            alert("Please fill in all required fields.");
-            return;
-        }
+          {/* Destination */}
+          <TextField
+            label="Destination"
+            name="destination"
+            value={formData.destination}
+            onChange={handleChange}
+            required
+            fullWidth
+            variant="outlined"
+            margin="normal"
+          />
 
-        // Save to localStorage
-        const existingData = JSON.parse(localStorage.getItem("adminData")) || [];
-        existingData.push(formData);
-        localStorage.setItem("adminData", JSON.stringify(existingData));
+          {/* Shipper Name */}
+          <TextField
+            label="Shipper Name"
+            name="shipperName"
+            value={formData.shipperName}
+            onChange={handleChange}
+            required
+            fullWidth
+            variant="outlined"
+            margin="normal"
+          />
 
-        alert("Data updated and synced successfully.");
-        // Reset the form
-        setFormData({
-            status: "processing",
-            lastUpdated: "",
-            comment: "",
-            trackingCode: "",
-            destination: "",
-            shipperName: "",
-            shipperAddress: "",
-            receiverName: "",
-            receiverAddress: "",
-        });
-    };
+          {/* Shipper Address */}
+          <TextField
+            label="Shipper Address"
+            name="shipperAddress"
+            value={formData.shipperAddress}
+            onChange={handleChange}
+            required
+            fullWidth
+            variant="outlined"
+            margin="normal"
+          />
 
-    return (
-        <div className="max-w-4xl mx-auto p-6 bg-white shadow-md rounded-md">
-            <h1 className="text-2xl font-bold mb-4">Admin Update Form</h1>
-            <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Status */}
-                <div>
-                    <label htmlFor="status" className="block font-medium">
-                        Status
-                    </label>
-                    <select
-                        id="status"
-                        name="status"
-                        value={formData.status}
-                        onChange={handleChange}
-                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                    >
-                        <option value="processing">Processing</option>
-                        <option value="in-transit">In-Transit</option>
-                        <option value="on-hold">On-Hold</option>
-                        <option value="delivered">Delivered</option>
-                    </select>
-                </div>
+          {/* Receiver Name */}
+          <TextField
+            label="Receiver Name"
+            name="receiverName"
+            value={formData.receiverName}
+            onChange={handleChange}
+            required
+            fullWidth
+            variant="outlined"
+            margin="normal"
+          />
 
-                {/* Last Updated */}
-                <div>
-                    <label htmlFor="lastUpdated" className="block font-medium">
-                        Last Updated
-                    </label>
-                    <input
-                        type="date"
-                        id="lastUpdated"
-                        name="lastUpdated"
-                        value={formData.lastUpdated}
-                        onChange={handleChange}
-                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                    />
-                </div>
+          {/* Receiver Address */}
+          <TextField
+            label="Receiver Address"
+            name="receiverAddress"
+            value={formData.receiverAddress}
+            onChange={handleChange}
+            required
+            fullWidth
+            variant="outlined"
+            margin="normal"
+          />
 
-                {/* Comment */}
-                <div>
-                    <label htmlFor="comment" className="block font-medium">
-                        Comment
-                    </label>
-                    <textarea
-                        id="comment"
-                        name="comment"
-                        value={formData.comment}
-                        onChange={handleChange}
-                        placeholder="Add a comment"
-                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                        rows="4"
-                    ></textarea>
-                </div>
+          {/* Comment */}
+          <TextField
+            label="Comment"
+            name="comment"
+            value={formData.comment}
+            onChange={handleChange}
+            required
+            fullWidth
+            variant="outlined"
+            margin="normal"
+          />
 
-                {/* Tracking Code */}
-                <div>
-                    <label htmlFor="trackingCode" className="block font-medium">
-                        Tracking Code
-                    </label>
-                    <input
-                        type="text"
-                        id="trackingCode"
-                        name="trackingCode"
-                        value={formData.trackingCode}
-                        onChange={handleChange}
-                        placeholder="Enter tracking code"
-                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                    />
-                </div>
+          {/* Days Remaining */}
+          <TextField
+            label="Days Remaining"
+            name="daysRemaining"
+            value={formData.daysRemaining}
+            onChange={handleChange}
+            required
+            type="number"
+            fullWidth
+            variant="outlined"
+            margin="normal"
+          />
 
-                {/* Destination */}
-                <div>
-                    <label htmlFor="destination" className="block font-medium">
-                        Destination
-                    </label>
-                    <input
-                        type="text"
-                        id="destination"
-                        name="destination"
-                        value={formData.destination}
-                        onChange={handleChange}
-                        placeholder="Enter destination"
-                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                    />
-                </div>
+          {/* Delivery Date */}
+          <TextField
+            label="Delivery Date"
+            name="deliveryDate"
+            value={formData.deliveryDate}
+            onChange={handleChange}
+            required
+            type="date"
+            fullWidth
+            InputLabelProps={{ shrink: true }}
+            variant="outlined"
+            margin="normal"
+          />
 
-                {/* Shipper Name */}
-                <div>
-                    <label htmlFor="shipperName" className="block font-medium">
-                        Shipper Name
-                    </label>
-                    <input
-                        type="text"
-                        id="shipperName"
-                        name="shipperName"
-                        value={formData.shipperName}
-                        onChange={handleChange}
-                        placeholder="Enter shipper name"
-                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                    />
-                </div>
+          {error && <p className="text-red-500 text-center border-red-500 border rounded-md py-2 px-4">{error}</p>}
+        </form>
+      </DialogContent>
 
-                {/* Shipper Address */}
-                <div>
-                    <label htmlFor="shipperAddress" className="block font-medium">
-                        Shipper Address
-                    </label>
-                    <input
-                        type="text"
-                        id="shipperAddress"
-                        name="shipperAddress"
-                        value={formData.shipperAddress}
-                        onChange={handleChange}
-                        placeholder="Enter shipper address"
-                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                    />
-                </div>
-
-                {/* Receiver Name */}
-                <div>
-                    <label htmlFor="receiverName" className="block font-medium">
-                        Receiver Name
-                    </label>
-                    <input
-                        type="text"
-                        id="receiverName"
-                        name="receiverName"
-                        value={formData.receiverName}
-                        onChange={handleChange}
-                        placeholder="Enter receiver name"
-                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                    />
-                </div>
-
-                {/* Receiver Address */}
-                <div>
-                    <label htmlFor="receiverAddress" className="block font-medium">
-                        Receiver Address
-                    </label>
-                    <input
-                        type="text"
-                        id="receiverAddress"
-                        name="receiverAddress"
-                        value={formData.receiverAddress}
-                        onChange={handleChange}
-                        placeholder="Enter receiver address"
-                        className="mt-1 block w-full border border-gray-300 rounded-md p-2"
-                    />
-                </div>
-
-                {/* Submit Button */}
-                <button
-                    type="submit"
-                    className="w-full bg-red-500 text-white font-medium py-2 px-4 rounded-md hover:bg-red-600"
-                >
-                    Update and Sync
-                </button>
-            </form>
-        </div>
-    );
+      <DialogActions>
+        <Button onClick={onClose} color="error" variant="outlined" disabled={loading}>
+          Cancel
+        </Button>
+        <Button
+          onClick={handleSubmit}
+          color="error"
+          variant="contained"
+          disabled={loading}
+        >
+          {loading ? <CircularProgress size={24} /> : "Add Tracking Info"}
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 };
 
-export default AdminUpdateForm;
+export default AdminAddTrackingForm;
