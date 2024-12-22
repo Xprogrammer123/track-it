@@ -1,26 +1,21 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Facebook, Twitter, Instagram, Linkedin } from 'lucide-react';
-
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 
 export default function Footer() {
-
-
   const socialIcons = [
-    { Icon: Facebook, href: '#' },
-    { Icon: Twitter, href: '#' },
-    { Icon: Instagram, href: '#' },
-    { Icon: Linkedin, href: '#' },
+    { Icon: Facebook, href: "#" },
+    { Icon: Twitter, href: "#" },
+    { Icon: Instagram, href: "#" },
+    { Icon: Linkedin, href: "#" },
   ];
 
   const links = [
-    { label: 'Home', path: '/' },
-    { label: 'Track Package', path: '/track' },
-    { label: 'Shipping History', path: '/history' },
-    { label: 'Contact Us', path: '#' },
+    { label: "Home", path: "/" },
+    { label: "Track Package", path: "/track" },
+    { label: "Shipping History", path: "/history" },
+    { label: "Contact Us", path: "#" },
   ];
-
-  
 
   return (
     <footer className="bg-gray-900 text-white py-12">
@@ -41,7 +36,7 @@ export default function Footer() {
               ))}
             </ul>
           </div>
-          
+
           <div>
             <h3 className="text-xl font-bold mb-4">Connect With Us</h3>
             <div className="flex space-x-4">
@@ -60,21 +55,20 @@ export default function Footer() {
           <div>
             <h3 className="text-xl font-bold mb-4">Contact</h3>
             <p className="text-gray-300">
-              Email: XpackageTracker @gmail.com<br />
-              Phone: (555) 123-4567<br />
+              Email: XpackageTracker @gmail.com
+              <br />
+              Phone: (555) 123-4567
+              <br />
               Hours: Mon-Fri 9am-5pm EST
             </p>
           </div>
         </div>
 
         <div className="mt-8 pt-8 border-t border-gray-800 text-center text-gray-400">
-          <Link to="/login">
-          © 2024 Xpackage Tracker LTD. All rights reserved.
-            </Link>
+          © 2024 Xpackage Tracker LTD.
+          <Link to="/login"> All rights reserved.</Link>
         </div>
       </div>
-
-    
     </footer>
   );
 }
