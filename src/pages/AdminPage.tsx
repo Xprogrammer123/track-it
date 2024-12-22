@@ -118,7 +118,7 @@ const AdminPage = () => {
                     {item.status}
                   </td>
                   <td className="border border-gray-300 px-2 py-4">
-                    {format(new Date(item.lastChecked), "MMM d, h:mm a")}
+                    {format(new Date(item.last_updated), "do MMMM yyyy, h:mm a")}
                   </td>
                   <td className="border border-gray-300 px-2 py-4">
                     {item.comment}
