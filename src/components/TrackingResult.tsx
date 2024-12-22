@@ -1,7 +1,10 @@
+import { useEffect, useRef } from 'react';
+import JsBarcode from 'jsbarcode';
 import { motion } from 'framer-motion';
 import { Package, Truck, Box, CheckCircle } from 'lucide-react';
 import { format } from 'date-fns';
 import { TrackingFormData, TrackingStatus } from '../types/tracking';
+import QRCode from 'qrcode';
 
 interface Props {
   trackingData: TrackingFormData;
@@ -17,6 +20,31 @@ const statusIcons = {
 };
 
 export default function TrackingResult({ trackingData, status, onReset }: Props) {
+  const qrCodeCanvas = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    const trackingUrl = `https://track-i.vercel.app/qr-track/${trackingData.trackingCode}`;
+    if (qrCodeCanvas.current) {
+      QRCode.toCanvas(qrCodeCanvas.current, trackingUrl, { width: 150 }, (error) => {
+        if (error) console.error('QR Code generation error:', error);
+      });
+    }
+  }, [trackingData.trackingCode]);
+
+  const barcodeRef = useRef<SVGSVGElement>(null);
+
+  useEffect(() => {
+    if (barcodeRef.current) {
+      JsBarcode(barcodeRef.current, trackingData.trackingCode, {
+        format: 'CODE128',
+        lineColor: '#000',
+        width: 2,
+        height: 100,
+        displayValue: true,
+      });
+    }
+  }, [trackingData.trackingCode]);
+
   const StatusIcon = statusIcons[status.status];
 
   return (
@@ -26,12 +54,13 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
       className="w-full max-w-md p-8 bg-white rounded-xl shadow-lg"
     >
       <motion.div
-        className="flex justify-center mb-6"
+        className="flex flex-col justify-center items-center mb-6"
         initial={{ scale: 0 }}
         animate={{ scale: 1 }}
         transition={{ type: "spring", stiffness: 260, damping: 20 }}
       >
-        <img title='barcode' src="https://cdn.pixabay.com/photo/2014/04/02/16/19/barcode-306926_1280.png" className="text-center mb-6"/>
+        <canvas ref={qrCodeCanvas} className="mb-6" />
+        {/* <svg ref={barcodeRef} className="mb-6"></svg> */}
         <StatusIcon className={`w-16 h-16 ${status.status === 'delivered' ? 'text-green-600' : 'text-red-600'}`} />
       </motion.div>
 
@@ -45,7 +74,7 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
         <p className="text-gray-600 mb-4">
           Destination: {trackingData.destination}
         </p>
-        
+
         {status.status === 'delivered' ? (
           <motion.div
             initial={{ opacity: 0 }}

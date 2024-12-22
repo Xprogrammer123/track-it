@@ -5,7 +5,6 @@ import {
   Navigate,
   Outlet,
 } from "react-router-dom";
-import React from "react";
 import Layout from "./components/Layout";
 import HomePage from "./pages/HomePage";
 import TrackingPage from "./pages/TrackingPage";
@@ -16,6 +15,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import AdminPage from "./pages/AdminPage";
 import AdminHistory from "./pages/AdminHistory";
 import { useAuth } from "./context/AuthContext";
+import TrackPackage from "./components/QrCodeTrackPackage";
 
 // Define a wrapper for routes that need Layout
 function LayoutWrapper() {
@@ -28,13 +28,6 @@ function LayoutWrapper() {
 
 function App() {
   const { state } = useAuth();
-
-  // Manage tracking code state
-  const [trackingCode, setTrackingCode] = React.useState("");
-
-  const handleTrackingCodeSave = (code: string) => {
-    setTrackingCode(code);
-  };
 
   if (state.loading) {
     return (
@@ -51,15 +44,8 @@ function App() {
         <Route element={<LayoutWrapper />}>
           {/* Public Pages */}
           <Route path="/" element={<HomePage />} />
-          <Route
-            path="/track"
-            element={
-              <TrackingPage
-                trackingCode={trackingCode}
-                onSave={handleTrackingCodeSave}
-              />
-            }
-          />
+          <Route path="/track" element={<TrackingPage />} />
+          <Route path="/qr-track/:trackingCode" element={<TrackPackage />} />
           <Route path="/adhistory" element={<AdminHistory />} />
         </Route>
 
@@ -72,7 +58,7 @@ function App() {
           path="/admin"
           element={
             <ProtectedRoute adminOnly={true}>
-              <AdminPage trackingCode={trackingCode} />
+              <AdminPage />
             </ProtectedRoute>
           }
         />
