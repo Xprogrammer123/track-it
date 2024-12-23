@@ -10,7 +10,7 @@ import HomePage from "./pages/HomePage";
 import TrackingPage from "./pages/TrackingPage";
 
 import LoginForm from "./components/auth/LoginForm";
-import RegisterForm from "./components/auth/RegisterForm";
+// import RegisterForm from "./components/auth/RegisterForm";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import AdminPage from "./pages/AdminPage";
 import AdminHistory from "./pages/AdminHistory";
@@ -51,7 +51,7 @@ function App() {
 
         {/* Auth Pages */}
         <Route path="/login" element={<LoginForm />} />
-        <Route path="/register" element={<RegisterForm />} />
+        {/* <Route path="/register" element={<RegisterForm />} /> */}
 
         {/* Admin and User Forms */}
         <Route

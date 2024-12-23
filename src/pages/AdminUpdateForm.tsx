@@ -46,6 +46,7 @@ const UpdatePackageForm = ({ open, onClose, packageId }: any) => {
         const packageData = response.data.package;
         setFormData({
           ...packageData,
+          lastUpdated: packageData.last_updated,
           delivery_date: formatDate(packageData.delivery_date), // Format the date
         });
       } catch (err) {

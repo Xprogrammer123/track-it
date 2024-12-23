@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
 // import JsBarcode from 'jsbarcode';
 import { motion } from 'framer-motion';
-import { Package, Truck, Box, CheckCircle } from 'lucide-react';
 import { format } from 'date-fns';
 import { TrackingFormData, TrackingStatus } from '../types/tracking';
 import QRCode from 'qrcode';
+import { Box, CheckCircle, Package, Truck } from 'lucide-react';
 
 interface Props {
   trackingData: TrackingFormData;
@@ -12,12 +12,6 @@ interface Props {
   onReset: () => void;
 }
 
-const statusIcons = {
-  'Processing': Package,
-  'In-Transit': Truck,
-  'On-Hold': Box,
-  'Delivered': CheckCircle,
-};
 
 export default function TrackingResult({ trackingData, status, onReset }: Props) {
   const qrCodeCanvas = useRef<HTMLCanvasElement>(null);
@@ -45,7 +39,6 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
   //   }
   // }, [trackingData.trackingCode]);
 
-  const StatusIcon = statusIcons[status.status];
 
   return (
     <motion.div
@@ -61,7 +54,7 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
       >
         <canvas ref={qrCodeCanvas} className="mb-6" />
         {/* <svg ref={barcodeRef} className="mb-6"></svg> */}
-        <StatusIcon className={`w-16 h-16 ${trackingData.status === 'Delivered' ? 'text-green-600' : 'text-red-600'}`} />
+        {/* <StatusIcon className={`w-16 h-16 ${status.status === 'Delivered' ? 'text-green-600' : 'text-red-600'}`} /> */}
       </motion.div>
 
       <div className="text-center mb-6">
@@ -98,7 +91,7 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
       <div className="space-y-4">
         <div className="flex items-center justify-between text-sm">
           <span className="text-gray-600">Status</span>
-          <span className="font-semibold capitalize">{trackingData.status.replace('-', ' ')}</span>
+          <span className="font-semibold capitalize">{trackingData.status}</span>
         </div>
         <div className="flex items-center justify-between text-sm">
           <span className="text-gray-600">Last Updated</span>

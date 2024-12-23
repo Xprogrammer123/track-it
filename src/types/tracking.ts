@@ -12,7 +12,7 @@ export interface TrackingFormData {
 }
 
 export interface TrackingStatus {
-  status: 'Processing' | 'In-Transit' | 'On-Hold' | 'Delivered';
+  status: any;
   daysRemaining: number;
   lastChecked: string;
   deliveryDate: string;

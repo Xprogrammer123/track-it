@@ -141,7 +141,7 @@ export default function LoginForm({
       </form>
 
       {/* Footer Links */}
-      <div className="mt-4 space-y-2 text-center">
+      {/* <div className="mt-4 space-y-2 text-center">
         <button
           onClick={onForgotPassword}
           className="text-sm text-red-600 hover:text-red-700"
@@ -158,7 +158,7 @@ export default function LoginForm({
             Create One
           </Link>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
