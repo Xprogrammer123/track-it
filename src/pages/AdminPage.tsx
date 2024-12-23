@@ -77,9 +77,9 @@ const AdminPage = () => {
       <div className="flex-grow">
         {/* Header */}
        
-        <header className="bg-red-500 text-white p-4 rounded-md mb-6 mt-16 flex items-center justify-between ">
+        <header className="bg-red-500 text-white p-4 mb-6 mt-16 flex items-center justify-between ">
           <h1 className="text-3xl font-bold text-center">Welcome Admin</h1> 
-          <button onClick={()=> logout()} className="w-auto h-auto px-4 py-2 border border-white rounded-md text-white-500 bg-transparent hover:bg-white-500 hover:text-red-500 transition-all duration-200 ">Logout</button>
+          <button onClick={()=> logout()} className="w-auto h-auto px-4 py-2 border border-white rounded-md text-white-500 bg-red-500 hover:bg-white-500 hover:text-red-500 transition-all duration-200 ">Logout</button>
         </header>
 
         {/* Table */}
