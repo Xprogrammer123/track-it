@@ -102,7 +102,7 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
       </div>
 
       {/* Shipper Information */}
-      <div className="mt-6 border border-gray-300 p-4 rounded-lg ">
+      <div className="mt-6 border border-gray-300 p-4 rounded-lg decoration-dotted">
         <h3 className="text-lg font-semibold mb-2">Shipper Information</h3>
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
@@ -117,7 +117,7 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
       </div>
 
       {/* Receiver Information */}
-      <div className="mt-6 border border-gray-300 p-4 rounded-lg ">
+      <div className="mt-6 border border-gray-300 p-4 rounded-lg decoration-dotted">
         <h3 className="text-lg font-semibold mb-2">Receiver Information</h3>
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
@@ -131,13 +131,14 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
         </div>
       </div>
 
-      {/* Comments */}
-      <div className="mt-6">
-        <h3 className="text-lg font-semibold mb-2">Comment</h3>
-        <p className="text-sm text-gray-700 border-bottom-2 border-red-200 py-3">
-          {trackingData.comment} 
-        </p>
-      </div>
+    {/* Comments */}
+<div className="mt-6">
+  <h3 className="text-lg font-semibold mb-2">Comment</h3>
+  <p className="text-sm text-gray-700 underline decoration-gray-400 py-3">
+    {trackingData.comment}
+  </p>
+</div>
+
 
       <motion.button
         whileHover={{ scale: 1.02 }}
