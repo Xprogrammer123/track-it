@@ -18,7 +18,6 @@ export default function Header() {
     { label: "Our Services", path: "/track" },
     { label: "Contact", path: "/track" },
     { label: "Faq", path: "/track" },
-  
   ];
 
   const handleAdminClick = () => {
@@ -51,17 +50,7 @@ export default function Header() {
                 </motion.span>
               </Link>
             ))}
-            {!state.isAuthenticated && (
-              <button>
-                <Link
-                  to="/login"
-                  className="text-white bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600 transition-colors"
-                >
-                  Login
-                </Link>
-              </button>
-            )}
-            {state.isAdmin && (
+            {state.isAuthenticated && state.isAdmin && (
               <button
                 onClick={handleAdminClick}
                 className="text-gray-600 hover:text-red-600 transition-colors"
@@ -105,18 +94,7 @@ export default function Header() {
                   {item.label}
                 </Link>
               ))}
-              {!state.isAuthenticated && (
-            {/*<div className="mt-8 flex justify-center items-center">
-                  <Link
-                    to="/login"
-                    className="text-white bg-blue-500 px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
-                  >
-                    Login
-                  </Link>
-                </div>*/}
-            
-              )}
-              {state.isAdmin && (
+              {state.isAuthenticated && state.isAdmin && (
                 <Button
                   onClick={handleAdminClick}
                   className="text-red-600 hover:text-red-600 "
@@ -128,8 +106,6 @@ export default function Header() {
           </motion.div>
         )}
       </AnimatePresence>
-      
     </header>
   );
 }
-

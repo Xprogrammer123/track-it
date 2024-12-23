@@ -8,7 +8,7 @@ import { useAuth } from "../context/AuthContext.tsx";
 import { format } from "date-fns";
 
 const AdminPage = () => {
-  const { state } = useAuth();
+  const { state, logout } = useAuth();
   const [data, setData] = useState<any[]>([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [openUpdateForm, setOpenUpdateForm] = useState(false);
@@ -76,6 +76,7 @@ const AdminPage = () => {
         {/* Header */}
         <header className="bg-red-500 text-white text-center py-4 rounded-md mb-6">
           <h1 className="text-3xl font-bold">Welcome Admin</h1>
+          <button onClick={()=> logout()}>Logout</button>
         </header>
 
         {/* Table */}
