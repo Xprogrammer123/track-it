@@ -89,7 +89,7 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
        <div className="flex items-center justify-between border border-gray-300 p-4 text-sm rounded-lg bg-blue-100">
   <span className="text-black font-bold text-xl">Status</span>
   <span className="text-black font-bold text-xl">
-    {status.status.replace('-','')}
+    {trackingData.status}
   </span>
 </div>
 
