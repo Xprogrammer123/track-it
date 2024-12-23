@@ -3,7 +3,7 @@ import { Trash2, Edit3 } from "lucide-react";
 import Footer from "../components/Layout/Footer.tsx";
 import AdminAddTrackingForm from "./AdminInput.tsx";
 import UpdatePackageForm from "./AdminUpdateForm.tsx";
-import Header from "./pages/Header"
+import Header from "./pages/Header.tsx"
 import axios from "axios";
 import { useAuth } from "../context/AuthContext.tsx";
 import { format } from "date-fns";
