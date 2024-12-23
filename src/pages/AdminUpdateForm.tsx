@@ -16,14 +16,14 @@ const UpdatePackageForm = ({ open, onClose, packageId }: any) => {
   const [formData, setFormData] = useState({
     trackingCode: "",
     destination: "",
-    shipperName: "",
-    shipperAddress: "",
-    receiverName: "",
-    receiverAddress: "",
+    shipper_name: "",
+    shipper_address: "",
+    receiver_name: "",
+    receiver_address: "",
     status: "",
     comment: "",
-    daysRemaining: "",
-    deliveryDate: "",
+    days_remaining: "",
+    delivery_date: "",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -46,7 +46,7 @@ const UpdatePackageForm = ({ open, onClose, packageId }: any) => {
         const packageData = response.data.package;
         setFormData({
           ...packageData,
-          deliveryDate: formatDate(packageData.deliveryDate), // Format the date
+          delivery_date: formatDate(packageData.delivery_date), // Format the date
         });
       } catch (err) {
         console.error(err);
@@ -78,27 +78,27 @@ const UpdatePackageForm = ({ open, onClose, packageId }: any) => {
     const {
       trackingCode,
       destination,
-      shipperName,
-      shipperAddress,
-      receiverName,
-      receiverAddress,
+      shipper_name,
+      shipper_address,
+      receiver_name,
+      receiver_address,
       status,
       comment,
-      daysRemaining,
-      deliveryDate,
+      days_remaining,
+      delivery_date,
     } = formData;
 
     if (
       !trackingCode ||
       !destination ||
-      !shipperName ||
-      !shipperAddress ||
-      !receiverName ||
-      !receiverAddress ||
+      !shipper_name ||
+      !shipper_address ||
+      !receiver_name ||
+      !receiver_address ||
       !status ||
       !comment ||
-      !daysRemaining ||
-      !deliveryDate
+      !days_remaining ||
+      !delivery_date
     ) {
       alert("Please fill in all required fields.");
       return;
@@ -113,7 +113,7 @@ const UpdatePackageForm = ({ open, onClose, packageId }: any) => {
         `https://track-it-api.vercel.app/api/admin/package/${packageId}`,
         {
             ...formData,
-            deliveryDate: new Date(formData.deliveryDate).toISOString(), // Convert to ISO
+            delivery_date: new Date(formData.delivery_date).toISOString(), // Convert to ISO
           },
         {
           headers: { Authorization: `Bearer ${state.token}` },
@@ -160,8 +160,8 @@ const UpdatePackageForm = ({ open, onClose, packageId }: any) => {
             />
             <TextField
               label="Shipper Name"
-              name="shipperName"
-              value={formData.shipperName}
+              name="shipper_name"
+              value={formData.shipper_name}
               onChange={handleChange}
               required
               fullWidth
@@ -170,8 +170,8 @@ const UpdatePackageForm = ({ open, onClose, packageId }: any) => {
             />
             <TextField
               label="Shipper Address"
-              name="shipperAddress"
-              value={formData.shipperAddress}
+              name="shipper_address"
+              value={formData.shipper_address}
               onChange={handleChange}
               required
               fullWidth
@@ -180,8 +180,8 @@ const UpdatePackageForm = ({ open, onClose, packageId }: any) => {
             />
             <TextField
               label="Receiver Name"
-              name="receiverName"
-              value={formData.receiverName}
+              name="receiver_name"
+              value={formData.receiver_name}
               onChange={handleChange}
               required
               fullWidth
@@ -190,8 +190,8 @@ const UpdatePackageForm = ({ open, onClose, packageId }: any) => {
             />
             <TextField
               label="Receiver Address"
-              name="receiverAddress"
-              value={formData.receiverAddress}
+              name="receiver_address"
+              value={formData.receiver_address}
               onChange={handleChange}
               required
               fullWidth
@@ -220,8 +220,8 @@ const UpdatePackageForm = ({ open, onClose, packageId }: any) => {
             />
             <TextField
               label="Days Remaining"
-              name="daysRemaining"
-              value={formData.daysRemaining}
+              name="days_remaining"
+              value={formData.days_remaining}
               onChange={handleChange}
               required
               type="number"
@@ -231,8 +231,8 @@ const UpdatePackageForm = ({ open, onClose, packageId }: any) => {
             />
             <TextField
               label="Delivery Date"
-              name="deliveryDate"
-              value={formData.deliveryDate}
+              name="delivery_date"
+              value={formData.delivery_date}
               onChange={handleChange}
               required
               type="date"
