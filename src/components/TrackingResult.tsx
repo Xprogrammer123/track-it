@@ -78,9 +78,6 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
           </motion.div>
         ) : (
           <div className="space-y-2">
-            <p className="text-gray-700">
-              Estimated delivery in {status.daysRemaining} {status.daysRemaining === 1 ? 'day' : 'days'}
-            </p>
             <p className="text-sm text-gray-500">
               Expected: {format(new Date(status.deliveryDate), 'MMMM do, yyyy')}
             </p>
@@ -89,10 +86,13 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
       </div>
 
       <div className="space-y-4">
-        <div className="flex items-center justify-between text-sm">
-          <span className="text-gray-600">Status</span>
-          <span className="font-semibold capitalize">{trackingData.status}</span>
-        </div>
+       <div className="flex items-center justify-between border border-gray-300 p-4 text-sm rounded-lg bg-blue-100">
+  <span className="text-black font-bold text-xl">Status</span>
+  <span className="text-black font-bold text-xl">
+    {status.status.replace('-', ' ')}
+  </span>
+</div>
+
         <div className="flex items-center justify-between text-sm">
           <span className="text-gray-600">Last Updated</span>
           <span className="font-semibold">
