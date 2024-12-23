@@ -102,7 +102,7 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
       </div>
 
       {/* Shipper Information */}
-      <div className="mt-6">
+      <div className="mt-6 border-dotted border-blue-100 py-6 px-12 rounded-lg">
         <h3 className="text-lg font-semibold mb-2">Shipper Information</h3>
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
@@ -117,7 +117,7 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
       </div>
 
       {/* Receiver Information */}
-      <div className="mt-6">
+      <div className="mt-6 border-dotted border-blue-100 py-6 px-12 rounded-lg">
         <h3 className="text-lg font-semibold mb-2">Receiver Information</h3>
         <div className="space-y-2">
           <div className="flex items-center justify-between text-sm">
@@ -134,8 +134,8 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
       {/* Comments */}
       <div className="mt-6">
         <h3 className="text-lg font-semibold mb-2">Comment</h3>
-        <p className="text-sm text-gray-700">
-          {trackingData.comment}
+        <p className="text-sm text-gray-700 border-bottom-2 border-red-100 py-3">
+          {trackingData.comment} 
         </p>
       </div>
 
