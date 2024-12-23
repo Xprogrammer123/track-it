@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import JsBarcode from 'jsbarcode';
+// import JsBarcode from 'jsbarcode';
 import { motion } from 'framer-motion';
 import { Package, Truck, Box, CheckCircle } from 'lucide-react';
 import { format } from 'date-fns';
@@ -13,10 +13,10 @@ interface Props {
 }
 
 const statusIcons = {
-  'processing': Package,
-  'in-transit': Truck,
-  'out-for-delivery': Box,
-  'delivered': CheckCircle,
+  'Processing': Package,
+  'In-Transit': Truck,
+  'On-Hold': Box,
+  'Delivered': CheckCircle,
 };
 
 export default function TrackingResult({ trackingData, status, onReset }: Props) {
@@ -31,19 +31,19 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
     }
   }, [trackingData.trackingCode]);
 
-  const barcodeRef = useRef<SVGSVGElement>(null);
+  // const barcodeRef = useRef<SVGSVGElement>(null);
 
-  useEffect(() => {
-    if (barcodeRef.current) {
-      JsBarcode(barcodeRef.current, trackingData.trackingCode, {
-        format: 'CODE128',
-        lineColor: '#000',
-        width: 2,
-        height: 100,
-        displayValue: true,
-      });
-    }
-  }, [trackingData.trackingCode]);
+  // useEffect(() => {
+  //   if (barcodeRef.current) {
+  //     JsBarcode(barcodeRef.current, trackingData.trackingCode, {
+  //       format: 'CODE128',
+  //       lineColor: '#000',
+  //       width: 2,
+  //       height: 100,
+  //       displayValue: true,
+  //     });
+  //   }
+  // }, [trackingData.trackingCode]);
 
   const StatusIcon = statusIcons[status.status];
 
@@ -61,7 +61,7 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
       >
         <canvas ref={qrCodeCanvas} className="mb-6" />
         {/* <svg ref={barcodeRef} className="mb-6"></svg> */}
-        <StatusIcon className={`w-16 h-16 ${status.status === 'delivered' ? 'text-green-600' : 'text-red-600'}`} />
+        <StatusIcon className={`w-16 h-16 ${trackingData.status === 'Delivered' ? 'text-green-600' : 'text-red-600'}`} />
       </motion.div>
 
       <div className="text-center mb-6">
@@ -75,7 +75,7 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
           Destination: {trackingData.destination}
         </p>
 
-        {status.status === 'delivered' ? (
+        {trackingData.status === 'Delivered' ? (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -98,7 +98,7 @@ export default function TrackingResult({ trackingData, status, onReset }: Props)
       <div className="space-y-4">
         <div className="flex items-center justify-between text-sm">
           <span className="text-gray-600">Status</span>
-          <span className="font-semibold capitalize">{status.status.replace('-', ' ')}</span>
+          <span className="font-semibold capitalize">{trackingData.status.replace('-', ' ')}</span>
         </div>
         <div className="flex items-center justify-between text-sm">
           <span className="text-gray-600">Last Updated</span>

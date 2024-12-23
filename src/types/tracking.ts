@@ -8,10 +8,11 @@ export interface TrackingFormData {
   shipperName: any;
   shipperAddress: any;
   comment: any;
+  status: any;
 }
 
 export interface TrackingStatus {
-  status: 'processing' | 'in-transit' | 'out-for-delivery' | 'delivered';
+  status: 'Processing' | 'In-Transit' | 'On-Hold' | 'Delivered';
   daysRemaining: number;
   lastChecked: string;
   deliveryDate: string;
