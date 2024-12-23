@@ -23,7 +23,6 @@ const AdminAddTrackingForm = ({ open, onClose }: any) => {
     receiverAddress: "",
     status: "",
     comment: "",
-    daysRemaining: "",
     deliveryDate: "",
   });
 
@@ -47,7 +46,6 @@ const AdminAddTrackingForm = ({ open, onClose }: any) => {
       receiverAddress,
       status,
       comment,
-      daysRemaining,
       deliveryDate,
     } = formData;
 
@@ -61,7 +59,6 @@ const AdminAddTrackingForm = ({ open, onClose }: any) => {
       !receiverAddress ||
       !status ||
       !comment ||
-      !daysRemaining ||
       !deliveryDate
     ) {
       alert("Please fill in all required fields.");
@@ -80,7 +77,6 @@ const AdminAddTrackingForm = ({ open, onClose }: any) => {
       receiverAddress,
       status,
       comment,
-      daysRemaining: Number(daysRemaining),
       deliveryDate,
     };
 
@@ -109,7 +105,6 @@ const AdminAddTrackingForm = ({ open, onClose }: any) => {
         receiverAddress: "",
         status: "",
         comment: "",
-        daysRemaining: "",
         deliveryDate: "",
       });
     } catch (err) {
@@ -222,19 +217,6 @@ const AdminAddTrackingForm = ({ open, onClose }: any) => {
             value={formData.comment}
             onChange={handleChange}
             required
-            fullWidth
-            variant="outlined"
-            margin="normal"
-          />
-
-          {/* Days Remaining */}
-          <TextField
-            label="Days Remaining"
-            name="daysRemaining"
-            value={formData.daysRemaining}
-            onChange={handleChange}
-            required
-            type="number"
             fullWidth
             variant="outlined"
             margin="normal"
