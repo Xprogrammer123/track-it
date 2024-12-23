@@ -83,7 +83,7 @@ const AdminPage = () => {
         </header>
 
         {/* Table */}
-        <div className="overflow-x-auto max-w-6xl mx-auto p-6 bg-white shadow-md rounded-md">
+        <div className="overflow-x-auto max-w-8xl mx-auto p-6 bg-white shadow-md rounded-md">
           <table className="w-full border-collapse border border-gray-300 whitespace-nowrap">
             <thead>
               <tr>
