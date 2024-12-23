@@ -3,7 +3,7 @@ import { Trash2, Edit3 } from "lucide-react";
 import Footer from "../components/Layout/Footer.tsx";
 import AdminAddTrackingForm from "./AdminInput.tsx";
 import UpdatePackageForm from "./AdminUpdateForm.tsx";
-import Header from "./pages/Header.tsx"
+import Header from "../components/Layout/Header.tsx";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext.tsx";
 import { format } from "date-fns";
@@ -73,9 +73,10 @@ const AdminPage = () => {
 
   return (
     <div className="flex flex-col min-h-screen">
+       <Header/>
       <div className="flex-grow">
         {/* Header */}
-        <Header/>
+       
         <header className="bg-red-500 text-white text-center py-4 rounded-md mb-6 mt-18">
           <h1 className="text-3xl font-bold">Welcome Admin</h1> 
           <button onClick={()=> logout()}>Logout</button>
