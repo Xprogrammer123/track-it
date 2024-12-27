@@ -22,6 +22,7 @@ const UpdatePackageForm = ({ open, onClose, packageId }: any) => {
     receiver_address: "",
     status: "",
     comment: "",
+    days_remaining: "",
     delivery_date: "",
   });
   const [loading, setLoading] = useState(false);
@@ -84,6 +85,7 @@ const UpdatePackageForm = ({ open, onClose, packageId }: any) => {
       receiver_address,
       status,
       comment,
+      days_remaining,
       delivery_date,
     } = formData;
 
@@ -96,6 +98,7 @@ const UpdatePackageForm = ({ open, onClose, packageId }: any) => {
       !receiver_address ||
       !status ||
       !comment ||
+      !days_remaining ||
       !delivery_date
     ) {
       alert("Please fill in all required fields.");
@@ -212,6 +215,17 @@ const UpdatePackageForm = ({ open, onClose, packageId }: any) => {
               value={formData.comment}
               onChange={handleChange}
               required
+              fullWidth
+              variant="outlined"
+              margin="normal"
+            />
+            <TextField
+              label="Days Remaining"
+              name="days_remaining"
+              value={formData.days_remaining}
+              onChange={handleChange}
+              required
+              type="number"
               fullWidth
               variant="outlined"
               margin="normal"
